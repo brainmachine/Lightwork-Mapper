@@ -5,31 +5,29 @@
 //  Created by Leo Stefansson on 28.8.2017.
 //
 //
-#pragma once
 
 #include "BinaryPattern.h"
 #include <iostream>
 
 using namespace std;
 
-void BinaryPattern::createPattern() {
-    int num = 10;
+void BinaryPattern::createPattern(int num) {
     cout << binary(num);
     
     
 };
 
 
-int BinaryPattern::binary(int number) {
+int BinaryPattern::binary(int num) {
     int remainder;
     
-    if(number <= 1) {
-        cout << number;
+    if(num <= 1) {
+        cout << num;
         return;
     }
     
-    remainder = number%2;
-    binary(number >> 1);
+    remainder = num%2;
+    binary(num >> 1);
     cout << remainder;
     return remainder;
 }

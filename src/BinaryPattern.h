@@ -6,24 +6,24 @@
 //
 //
 
-#ifndef BinaryPattern_hpp
-#define BinaryPattern_hpp
+#ifndef BinaryPattern_h
+#define BinaryPattern_h
 
 #include <stdio.h>
 #include <string>
 
 
-#endif /* BinaryPattern_hpp */
+#endif /* BinaryPattern_h */
 
 class BinaryPattern {
     
 public:
-    BinaryPattern();
-    ~BinaryPattern();
+//    BinaryPattern();
+//    ~BinaryPattern();
     
-    void createPattern();
+    void createPattern(int num);
 
 private:
-    int binary(int number);
+    int binary(int num);
     
 };

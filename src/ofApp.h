@@ -6,6 +6,7 @@
 #include "ofxOPC.h"
 #include "ofxEditableSvg.h"
 #include "ofxJSON.h"
+#include "BinaryPattern.h"
 
 class ofApp : public ofBaseApp{
 
@@ -66,5 +67,9 @@ class ofApp : public ofBaseApp{
     
         // SVG
         ofxEditableSVG svg;
-        
+    
+        // Binary pattern generator
+        BinaryPattern binaryPattern;
+    
+    
 };

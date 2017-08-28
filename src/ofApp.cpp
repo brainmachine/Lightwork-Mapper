@@ -50,6 +50,10 @@ void ofApp::setup(){
     
     // SVG
     svg.setViewbox(0, 0, 640, 480);
+    
+    // Binary pattern generator
+    binaryPattern.createPattern(213);
+    
 }
 
 //--------------------------------------------------------------
