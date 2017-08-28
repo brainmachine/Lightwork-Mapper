@@ -8,26 +8,17 @@
 
 #include "BinaryPattern.h"
 #include <iostream>
+#include <sstream> 
+
+#include <bitset>
+
+
+
 
 using namespace std;
 
 void BinaryPattern::createPattern(int num) {
-    cout << binary(num);
-    
-    
+    std::string s = std::bitset< 10 >( num ).to_string(); // string conversion
+    cout << s;
+ 
 };
-
-
-int BinaryPattern::binary(int num) {
-    int remainder;
-    
-    if(num <= 1) {
-        cout << num;
-        return;
-    }
-    
-    remainder = num%2;
-    binary(num >> 1);
-    cout << remainder;
-    return remainder;
-}

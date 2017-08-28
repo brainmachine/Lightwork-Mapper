@@ -25,5 +25,6 @@ public:
 
 private:
     int binary(int num);
+    std::string patternString; // Stores a single binary pattern
     
 };

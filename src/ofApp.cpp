@@ -52,7 +52,12 @@ void ofApp::setup(){
     svg.setViewbox(0, 0, 640, 480);
     
     // Binary pattern generator
+//    int numBits = 20; // For testing...
+//    for (int i = 0; i< numBits; i++) {
+//        binaryPattern.createPattern(i+250);
+//    }
     binaryPattern.createPattern(213);
+    
     
 }
 
