@@ -21,7 +21,7 @@ public:
 //    BinaryPattern();
 //    ~BinaryPattern();
     
-    void createPattern(int num);
+    std::string createPattern(int num);
 
 private:
     int binary(int num);

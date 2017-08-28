@@ -34,6 +34,7 @@ class ofApp : public ofBaseApp{
         void generateSVG(vector <ofPoint> points);
         void generateJSON(vector <ofPoint> points);
         vector <ofPoint> removeDuplicatesFromPoints(vector <ofPoint> points);
+        void animateBinaryPattern(string pattern);
     
         // OPC
         ofxOPC              opcClient;
@@ -69,7 +70,10 @@ class ofApp : public ofBaseApp{
         ofxEditableSVG svg;
     
         // Binary pattern generator
-        BinaryPattern binaryPattern;
+        BinaryPattern binaryPattern; // The Pattern Generator
+        vector <string> patterns;    // For Storing Binary Patterns
+    
+    
     
     
 };

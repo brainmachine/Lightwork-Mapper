@@ -52,12 +52,19 @@ void ofApp::setup(){
     svg.setViewbox(0, 0, 640, 480);
     
     // Binary pattern generator
-//    int numBits = 20; // For testing...
-//    for (int i = 0; i< numBits; i++) {
-//        binaryPattern.createPattern(i+250);
-//    }
-    binaryPattern.createPattern(213);
+    int numBits = 20; // For testing...
+    for (int i = 10; i< numBits; i++) {
+        std::string s = binaryPattern.createPattern(i);
+        patterns.push_back(s);
+    }
     
+    // Print our patterns
+    for (int i = 0; i < patterns.size(); i++) {
+        cout << patterns[i];
+        cout << "\n";
+    }
+    
+    animateBinaryPattern(patterns[0]);
     
 }
 
@@ -304,6 +311,20 @@ void ofApp::setAllLEDColours(ofColor col) {
         pixels.at(i) = col;
     }
     opcClient.writeChannel(1, pixels);
+}
+
+void ofApp::animateBinaryPattern(string pattern) {
+    int index = 0;
+    cout << "animating binary pattern \n";
+    std::string bits = pattern;
+    bits = bits.at(0);
+    while (index < pattern.size()) {
+        cout << pattern[index];
+        std::string s = &pattern[index];
+        int b = std::stoi(s);
+        
+        index++;
+    }
 }
 
 //LED Pre-flight test

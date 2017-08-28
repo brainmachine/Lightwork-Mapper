@@ -17,8 +17,8 @@
 
 using namespace std;
 
-void BinaryPattern::createPattern(int num) {
+std::string BinaryPattern::createPattern(int num) {
     std::string s = std::bitset< 10 >( num ).to_string(); // string conversion
-    cout << s;
- 
+    return s;
 };
+
