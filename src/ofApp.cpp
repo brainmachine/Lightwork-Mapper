@@ -314,19 +314,31 @@ void ofApp::setAllLEDColours(ofColor col) {
 }
 
 void ofApp::animateBinaryPattern(string pattern) {
-    int index = 0;
+    
     cout << "animating binary pattern \n";
+    
+    // Convert binary string to vector of ints
     std::vector<int> ints;
     ints.reserve(pattern.size()); //to save on memory reallocations
+    
     std::transform(std::begin(pattern), std::end(pattern), std::back_inserter(ints),
                    [](char c) {
                        //cout << c - '0';
                        return c - '0';
                    }
                    );
-    
+    // Iterate through binary int values
     for (int i = 0; i<ints.size(); i++) {
         cout << ints[i];
+        if (ints[i] > 0) {
+           pixels.at(0) = ofColor(0, 0, ledBrightness);
+        }
+        else {
+            pixels.at(0) = ofColor(ledBrightness,0, 0);
+        }
+        
+        ofSleepMillis(100);
+        opcClient.writeChannel(1, pixels);
     }
     
 }
