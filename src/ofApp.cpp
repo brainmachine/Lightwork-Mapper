@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    int framerate = 5; // Used to set oF and camera framerate
+    int framerate = 25; // Used to set oF and camera framerate
     ofSetFrameRate(framerate);
     
     // Input
@@ -16,9 +16,9 @@ void ofApp::setup(){
     gui.add(resetBackground.set("Reset Background", false));
     gui.add(learningTime.set("Learning Time", 1.2, 0, 30));
     gui.add(thresholdValue.set("Threshold Value", 53, 0, 255)); //TODO: update at runtime
-    
+
     // Contours
-    contourFinder.setMinAreaRadius(1);
+    contourFinder.setMinAreaRadius(5);
     contourFinder.setMaxAreaRadius(100);
     contourFinder.setThreshold(15);
     // wait for half a frame before forgetting something (15)
@@ -26,6 +26,7 @@ void ofApp::setup(){
     // an object can move up to 32 pixels per frame
     contourFinder.getTracker().setMaximumDistance(32);
     contourFinder.getTracker().setSmoothingRate(1.0);
+//    contourFinder.setAutoThreshold(true);
     
     
     // LED
