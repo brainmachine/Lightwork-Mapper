@@ -316,15 +316,19 @@ void ofApp::setAllLEDColours(ofColor col) {
 void ofApp::animateBinaryPattern(string pattern) {
     int index = 0;
     cout << "animating binary pattern \n";
-    std::string bits = pattern;
-    bits = bits.at(0);
-    while (index < pattern.size()) {
-        cout << pattern[index];
-        std::string s = &pattern[index];
-        int b = std::stoi(s);
-        
-        index++;
+    std::vector<int> ints;
+    ints.reserve(pattern.size()); //to save on memory reallocations
+    std::transform(std::begin(pattern), std::end(pattern), std::back_inserter(ints),
+                   [](char c) {
+                       //cout << c - '0';
+                       return c - '0';
+                   }
+                   );
+    
+    for (int i = 0; i<ints.size(); i++) {
+        cout << ints[i];
     }
+    
 }
 
 //LED Pre-flight test
