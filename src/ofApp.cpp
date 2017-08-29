@@ -52,19 +52,14 @@ void ofApp::setup(){
     svg.setViewbox(0, 0, 640, 480);
     
     // Binary pattern generator
-    int numBits = 20; // For testing...
-    for (int i = 10; i< numBits; i++) {
-        std::string s = binaryPattern.createPattern(i);
-        patterns.push_back(s);
-    }
+    binaryPattern.generatePatterns(60); // Generate 60 unique patterns
     
     // Print our patterns
-    for (int i = 0; i < patterns.size(); i++) {
-        cout << patterns[i];
+    for (int i = 0; i < binaryPattern.patterns.size(); i++) {
+        cout << binaryPattern.patterns[i];
         cout << "\n";
     }
     
-    animateBinaryPattern(patterns[0]);
     
 }
 
@@ -87,7 +82,8 @@ void ofApp::update(){
         background.reset();
         resetBackground = false;
     }
-
+    
+    /* CONTOUR TRACKING, one LED at a time
     if (isMapping && !isLedOn) {
         chaseAnimationOn();
     }
@@ -159,6 +155,10 @@ void ofApp::update(){
             chaseAnimationOff();
         } 
     }
+     */
+    if(cam.isFrameNew()) {
+        animateBinaryPattern(binaryPattern.patterns[0]);
+    }
     
     ofSetColor(ofColor::white);
 }
@@ -184,6 +184,51 @@ void ofApp::draw(){
 //    if (isMapping) {
 //        ofSaveFrame();
 //    }
+}
+
+void ofApp::animateBinaryPattern(string pattern) {
+    
+    cout << "animating binary pattern \n";
+    
+    // Convert binary string to vector of ints
+    std::vector<int> ints;
+    ints.reserve(pattern.size()); //to save on memory reallocations
+    
+    std::transform(std::begin(pattern), std::end(pattern), std::back_inserter(ints),
+                   [](char c) {
+                       //cout << c - '0';
+                       return c - '0';
+                   }
+                   );
+    // Send a 'start' bit -> green
+    pixels.at(0) = ofColor(0 ,ledBrightness, 0);
+    opcClient.writeChannel(1, pixels);
+    ofSleepMillis(100);
+    pixels.at(0) = ofColor(0 ,0, 0);
+    ofSleepMillis(100);
+    opcClient.writeChannel(1, pixels);
+    
+    // Iterate through binary int values
+    // 0 -> red
+    // 1 -> blue
+    for (int i = 0; i<ints.size(); i++) {
+        cout << ints[i];
+        if (ints[i] > 0) {
+            pixels.at(0) = ofColor(0, 0, ledBrightness);
+        }
+        else {
+            pixels.at(0) = ofColor(ledBrightness,0, 0);
+        }
+        
+        opcClient.writeChannel(1, pixels);
+        ofSleepMillis(100);
+        
+        // Turn it off in between
+        pixels.at(0) = ofColor(0 ,0, 0);
+        opcClient.writeChannel(1, pixels);
+        ofSleepMillis(100);
+    }
+    
 }
 
 //--------------------------------------------------------------
@@ -313,35 +358,6 @@ void ofApp::setAllLEDColours(ofColor col) {
     opcClient.writeChannel(1, pixels);
 }
 
-void ofApp::animateBinaryPattern(string pattern) {
-    
-    cout << "animating binary pattern \n";
-    
-    // Convert binary string to vector of ints
-    std::vector<int> ints;
-    ints.reserve(pattern.size()); //to save on memory reallocations
-    
-    std::transform(std::begin(pattern), std::end(pattern), std::back_inserter(ints),
-                   [](char c) {
-                       //cout << c - '0';
-                       return c - '0';
-                   }
-                   );
-    // Iterate through binary int values
-    for (int i = 0; i<ints.size(); i++) {
-        cout << ints[i];
-        if (ints[i] > 0) {
-           pixels.at(0) = ofColor(0, 0, ledBrightness);
-        }
-        else {
-            pixels.at(0) = ofColor(ledBrightness,0, 0);
-        }
-        
-        ofSleepMillis(100);
-        opcClient.writeChannel(1, pixels);
-    }
-    
-}
 
 //LED Pre-flight test
 void ofApp::test() {

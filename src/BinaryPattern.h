@@ -11,20 +11,24 @@
 
 #include <stdio.h>
 #include <string>
+#include <vector>
 
 
 #endif /* BinaryPattern_h */
 
+using namespace std;
+
 class BinaryPattern {
+    
     
 public:
 //    BinaryPattern();
 //    ~BinaryPattern();
     
-    std::string createPattern(int num);
-
+    void generatePatterns(int num);
+    std::vector <std::string> patterns; // For Storing Binary Patterns
+    
 private:
-    int binary(int num);
-    std::string patternString; // Stores a single binary pattern
+    string patternString; // Stores a single binary pattern
     
 };

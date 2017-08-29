@@ -71,9 +71,5 @@ class ofApp : public ofBaseApp{
     
         // Binary pattern generator
         BinaryPattern binaryPattern; // The Pattern Generator
-        vector <string> patterns;    // For Storing Binary Patterns
-    
-    
-    
     
 };
