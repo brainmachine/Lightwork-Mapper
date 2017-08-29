@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    int framerate = 25; // Used to set oF and camera framerate
+    int framerate = 30; // Used to set oF and camera framerate
     ofSetFrameRate(framerate);
     
     // Input
@@ -157,7 +157,7 @@ void ofApp::update(){
     }
      */
     if(cam.isFrameNew()) {
-        animateBinaryPattern(binaryPattern.patterns[0]);
+        animateBinaryPattern(binaryPattern.patterns[33]);
     }
     
     ofSetColor(ofColor::white);
@@ -188,6 +188,10 @@ void ofApp::draw(){
 
 void ofApp::animateBinaryPattern(string pattern) {
     
+    int channel = 1; // First LED strip
+    int ledNum = 24; // Index of LED to control
+    
+    
     cout << "animating binary pattern \n";
     
     // Convert binary string to vector of ints
@@ -200,13 +204,14 @@ void ofApp::animateBinaryPattern(string pattern) {
                        return c - '0';
                    }
                    );
+    
     // Send a 'start' bit -> green
-    pixels.at(0) = ofColor(0 ,ledBrightness, 0);
-    opcClient.writeChannel(1, pixels);
+    pixels.at(ledNum) = ofColor(0 ,ledBrightness, 0);
+    opcClient.writeChannel(channel, pixels);
     ofSleepMillis(100);
-    pixels.at(0) = ofColor(0 ,0, 0);
+    pixels.at(ledNum) = ofColor(0 ,0, 0);
     ofSleepMillis(100);
-    opcClient.writeChannel(1, pixels);
+    opcClient.writeChannel(channel, pixels);
     
     // Iterate through binary int values
     // 0 -> red
@@ -214,18 +219,18 @@ void ofApp::animateBinaryPattern(string pattern) {
     for (int i = 0; i<ints.size(); i++) {
         cout << ints[i];
         if (ints[i] > 0) {
-            pixels.at(0) = ofColor(0, 0, ledBrightness);
+            pixels.at(ledNum) = ofColor(0, 0, ledBrightness);
         }
         else {
-            pixels.at(0) = ofColor(ledBrightness,0, 0);
+            pixels.at(ledNum) = ofColor(ledBrightness,0, 0);
         }
         
-        opcClient.writeChannel(1, pixels);
+        opcClient.writeChannel(channel, pixels);
         ofSleepMillis(100);
         
         // Turn it off in between
-        pixels.at(0) = ofColor(0 ,0, 0);
-        opcClient.writeChannel(1, pixels);
+        pixels.at(ledNum) = ofColor(0 ,0, 0);
+        opcClient.writeChannel(channel, pixels);
         ofSleepMillis(100);
     }
     
