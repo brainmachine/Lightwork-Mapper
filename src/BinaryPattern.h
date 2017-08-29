@@ -23,18 +23,22 @@ class BinaryPattern {
     
 public:
     BinaryPattern(); // Constructor
-    ~BinaryPattern(); // Destructor
+    //~BinaryPattern(); // Destructor
     
     void generatePattern(int num);
+    
+    string pattern; // Stores a single binary pattern
+    vector <int> patternVector; // Stores binary pattern as vector of ints
     
     //std::vector <std::string> patterns; // For Storing Binary Patterns
     
     enum ledState_t {LOW, HIGH, START}; // LED binary state. START -> GREEN, HIGH -> BLUE, LOW -> RED
     ledState_t state;
+
+    int frameNum;
     
 private:
-    string patternString; // Stores a single binary pattern
-    int frameNum;
+    vector <int> convertStringToIntVector(string pattern);
 };
 
 // Constructor

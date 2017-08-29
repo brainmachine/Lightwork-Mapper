@@ -34,7 +34,7 @@ class ofApp : public ofBaseApp{
         void generateSVG(vector <ofPoint> points);
         void generateJSON(vector <ofPoint> points);
         vector <ofPoint> removeDuplicatesFromPoints(vector <ofPoint> points);
-        void animateBinaryPattern(string pattern);
+        void animateBinaryPattern(BinaryPattern pattern);
     
         // OPC
         ofxOPC              opcClient;

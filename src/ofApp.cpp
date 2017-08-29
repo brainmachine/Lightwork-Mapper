@@ -54,11 +54,8 @@ void ofApp::setup(){
     // Binary pattern generator
     binaryPattern.generatePattern(13); // Generate a single unique pattern (
     
-    // Print our patterns
-    for (int i = 0; i < binaryPattern.patterns.size(); i++) {
-        cout << binaryPattern.patterns[i];
-        cout << "\n";
-    }
+    // Print our pattern
+    cout << binaryPattern.pattern;
     
     
 }
@@ -157,7 +154,11 @@ void ofApp::update(){
     }
      */
     if(cam.isFrameNew()) {
-        animateBinaryPattern(binaryPattern.patterns[33]);
+        if (ofGetFrameNum()%10 == 0) {
+            binaryPattern.frameNum += 1;
+            animateBinaryPattern(binaryPattern);
+        }
+        
     }
     
     ofSetColor(ofColor::white);
@@ -186,27 +187,12 @@ void ofApp::draw(){
 //    }
 }
 
-void ofApp::animateBinaryPattern(string pattern) {
-    
-    int frameNum = ofGetFrameNum();
+void ofApp::animateBinaryPattern(BinaryPattern pat) {
     
     int channel = 1; // First LED strip
     int ledNum = 24; // Index of LED to control
     
-    
-    cout << "animating binary pattern \n";
-    
-    // Convert binary string to vector of ints
-    std::vector<int> ints;
-    ints.reserve(pattern.size()); //to save on memory reallocations
-    
-    std::transform(std::begin(pattern), std::end(pattern), std::back_inserter(ints),
-                   [](char c) {
-                       //cout << c - '0';
-                       return c - '0';
-                   }
-                   );
-    
+
     // Send a 'start' bit -> green
     pixels.at(ledNum) = ofColor(0 ,ledBrightness, 0);
     opcClient.writeChannel(channel, pixels);
@@ -216,19 +202,18 @@ void ofApp::animateBinaryPattern(string pattern) {
     opcClient.writeChannel(channel, pixels);
     
     
-    
+    // Light up bit indicator
     // 0 -> red
     // 1 -> blue
 
     int index = 0; // TODO: Make this dynamic
-    
-    if (ints[index] > 0) {
+
+    if (pat.patternVector[index] > 0) {
         pixels.at(ledNum) = ofColor(0, 0, ledBrightness); // Blue for 1
     }
     else {
         pixels.at(ledNum) = ofColor(ledBrightness,0, 0); // Red for 0
     }
-    
     opcClient.writeChannel(channel, pixels);
     
     
