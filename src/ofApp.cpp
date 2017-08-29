@@ -52,7 +52,7 @@ void ofApp::setup(){
     svg.setViewbox(0, 0, 640, 480);
     
     // Binary pattern generator
-    binaryPattern.generatePatterns(60); // Generate 60 unique patterns
+    binaryPattern.generatePattern(13); // Generate a single unique pattern (
     
     // Print our patterns
     for (int i = 0; i < binaryPattern.patterns.size(); i++) {
