@@ -188,6 +188,8 @@ void ofApp::draw(){
 
 void ofApp::animateBinaryPattern(string pattern) {
     
+    int frameNum = ofGetFrameNum();
+    
     int channel = 1; // First LED strip
     int ledNum = 24; // Index of LED to control
     
@@ -208,31 +210,33 @@ void ofApp::animateBinaryPattern(string pattern) {
     // Send a 'start' bit -> green
     pixels.at(ledNum) = ofColor(0 ,ledBrightness, 0);
     opcClient.writeChannel(channel, pixels);
-    ofSleepMillis(100);
+    
+    // Turn the green bit off
     pixels.at(ledNum) = ofColor(0 ,0, 0);
-    ofSleepMillis(100);
     opcClient.writeChannel(channel, pixels);
     
-    // Iterate through binary int values
+    
+    
     // 0 -> red
     // 1 -> blue
-    for (int i = 0; i<ints.size(); i++) {
-        cout << ints[i];
-        if (ints[i] > 0) {
-            pixels.at(ledNum) = ofColor(0, 0, ledBrightness);
-        }
-        else {
-            pixels.at(ledNum) = ofColor(ledBrightness,0, 0);
-        }
-        
-        opcClient.writeChannel(channel, pixels);
-        ofSleepMillis(100);
-        
-        // Turn it off in between
-        pixels.at(ledNum) = ofColor(0 ,0, 0);
-        opcClient.writeChannel(channel, pixels);
-        ofSleepMillis(100);
+
+    int index = 0; // TODO: Make this dynamic
+    
+    if (ints[index] > 0) {
+        pixels.at(ledNum) = ofColor(0, 0, ledBrightness); // Blue for 1
     }
+    else {
+        pixels.at(ledNum) = ofColor(ledBrightness,0, 0); // Red for 0
+    }
+    
+    opcClient.writeChannel(channel, pixels);
+    
+    
+    // Turn it off in between
+    pixels.at(ledNum) = ofColor(0 ,0, 0);
+    opcClient.writeChannel(channel, pixels);
+    
+    
     
 }
 

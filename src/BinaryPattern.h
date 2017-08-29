@@ -22,13 +22,18 @@ class BinaryPattern {
     
     
 public:
-//    BinaryPattern();
+    BinaryPattern(); // Constructor
 //    ~BinaryPattern();
-    
     void generatePatterns(int num);
     std::vector <std::string> patterns; // For Storing Binary Patterns
     
 private:
     string patternString; // Stores a single binary pattern
+    int frameNum; 
     
 };
+
+// Constructor
+BinaryPattern::BinaryPattern(void) {
+    frameNum = 0;
+}
