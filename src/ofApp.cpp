@@ -220,7 +220,7 @@ void ofApp::keyPressed(int key){
         case 'b':
             detector.setMode(DETECTOR_MODE_BINARY);
             detector.centroids.clear();
-            isMapping = !isMapping;
+            isMapping = true;
             animator.setMode(ANIMATION_MODE_BINARY);
             animator.setFrameSkip(5);
             animator.update();

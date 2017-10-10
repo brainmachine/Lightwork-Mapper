@@ -48,7 +48,7 @@ void Animator::setMode(animation_mode_t m) {
 
 void Animator::setLedBrightness(int brightness) {
     ledBrightness = brightness;
-    opcClient->autoWriteData(getPixels());
+    opcClient->autoWriteData(this->getPixels());
 }
 
 void Animator::setNumLedsPerStrip(int num) {
@@ -222,8 +222,6 @@ void Animator::binaryAnimation() {
                     break;
                 }
             }
-        
         leds[i].binaryPattern.advance();
     }
-    
 }

@@ -65,12 +65,15 @@ void Detector::updateViewOnly() {
     background.setThresholdValue(thresholdValue);
     background.update(cam, thresholded);
     
+    
+    
     // Get contours
     ofxCv::blur(thresholded, 5); // TODO: do we need this?
     if (mode != DETECTOR_MODE_OFF) {
         findContours(thresholded);
     }
     thresholded.update();
+    
 }
 
 void Detector::findBinary() {
