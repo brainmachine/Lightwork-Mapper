@@ -112,9 +112,9 @@ void Animator::populateLeds() {
         leds[i].binaryPattern.generatePattern(i+bPatOffset); // Generate a unique binary pattern for each LED
     }
     ofLogNotice("animator") << "known patterns: ";
-    //for (int i = 0; i < leds.size(); i++) {
-    //    //ofLogNotice("animator") << leds[i].binaryPattern.binaryPatternString;
-    //}
+    for (int i = 0; i < leds.size(); i++) {
+        ofLogNotice("animator") << leds[i].binaryPattern.binaryPatternString;
+    }
 }
 
 
@@ -135,10 +135,12 @@ void Animator::update() {
             }
             case ANIMATION_MODE_BINARY: {
                 binaryAnimation();
+                break;
             }
 
 			case ANIMATION_MODE_OFF: {
 				setAllLEDColours(ofColor(0, 0, 0));
+                break;
 			}
         };
     // }
@@ -149,6 +151,7 @@ void Animator::update() {
     opcClient->autoWriteData(this->getPixels()); // Send pixel values to OPC
 
 }
+
 // Update the pixels for all the strips
 // This method does not return the pixels, it's up to the users to send animator.pixels to the driver (FadeCandy, PixelPusher).
 void Animator::chase() {
@@ -202,7 +205,7 @@ void Animator::binaryAnimation() {
     
     // Slow down the animation, set new state every 3 frames
    
-//        cout << leds.size() << endl;
+    cout << leds.size() << endl;
     for (int i = 0; i < leds.size(); i++) {
             switch (leds[i].binaryPattern.state){ // 0
                 case BinaryPattern::LOW: {

@@ -57,17 +57,17 @@ void ofApp::setup(){
     // Animator settings
     animator.setLedInterface(&opcClient); // Setting a POINTER to the interface, so the Animator class can update pixels internally
     animator.setMode(ANIMATION_MODE_CHASE);
-    animator.setNumLedsPerStrip(64); // This also updates numLedsPerStrip in the OPC Client
-    animator.setNumStrips(8); // TODO: Fix setNumStrips, it gets set to n-1
+    animator.setNumLedsPerStrip(3); // This also updates numLedsPerStrip in the OPC Client
+    animator.setNumStrips(1); // TODO: Fix setNumStrips, it gets set to n-1
     animator.setLedBrightness(155);
     animator.setFrameSkip(5);
-    animator.setAllLEDColours(ofColor(0, 0,0)); // Clear the LED strips
+    animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
 
     detector.setup(*camPtr);
     detector.setMode(DETECTOR_MODE_OFF);
     detector.learningTime.set("Learning Time", 4, 0, 30);
     detector.thresholdValue.set("Threshold Value", 50, 0, 255);
-    cout << "tracker detected patterns (pre detection)" << endl;
+    //cout << "tracker detected patterns (pre detection)" << endl;
     //for (int i = 0; i < detector.detectedPatterns.size(); i++) {
     //    cout << detector.detectedPatterns[i].binaryPatternString << endl;
     //}
