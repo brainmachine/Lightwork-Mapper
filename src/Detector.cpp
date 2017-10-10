@@ -66,7 +66,6 @@ void Detector::updateViewOnly() {
     background.update(cam, thresholded);
     
     
-    
     // Get contours
     ofxCv::blur(thresholded, 5); // TODO: do we need this?
     if (mode != DETECTOR_MODE_OFF) {
@@ -86,6 +85,11 @@ void Detector::findBinary() {
     // The size may vary, and the index does not necessarily line up with tracker label (id)
     for (int i = 0; i < this->size(); i++) {
 //        ofLogNotice("tracker") << "analyzing tracker at index: " << i << " with label: " << getLabel(i);
+        // register the tracker (if it doesn't already exist)
+        dict[this->getLabel(i)] = BinaryPattern();
+        
+        
+        getTracker();
         cv::Rect rect = getBoundingRect(i);
         ofImage img;
         img = cam.getPixels();
@@ -110,7 +114,7 @@ void Detector::findBinary() {
         avgB = b/numPixels;
         ofFloatColor avgColor = ofFloatColor(avgR, avgG, avgB);
         float brightness = avgColor.getBrightness();
-//        cout << "label: " << getLabel(i) <<" brightness: " << brightness << endl;
+        cout << "label: " << getLabel(i) <<" brightness: " << brightness << endl;
 //        cout << "[" << avgR << ", " << avgG << ", " << avgB << "]," << endl;
         
         // If brightness is above threshold, get the brightest colour
@@ -137,40 +141,35 @@ void Detector::findBinary() {
             // START(2) -> GREEN,
             // OFF(3) -> (off)
             switch (dist) {
-                case 0:
+                case 0: // LOW
                     detectedColor = "RED";
                     detectedState = 0;
                     break;
-                case 1:
+                case 1: // START
                     detectedColor = "GREEN";
-//                    cout << "START SIGNAL DETECTED" << endl;
                     index = 0;
+                    dict[this->getLabel(i)].resetBitIndex();
                     detectedState = 2;
                     break;
-                case 2:
+                case 2: // HIGH
                     detectedColor = "BLUE";
                     detectedState = 1;
                     break;
-                default:
+                default: // OFF
                     ofLogError("binary") << "Brightest colour is not a known colour!" << endl;
             }
         }
         else {
             detectedColor = "BLACK";
             detectedState = 3;
-            //                cout << "BLACK" << endl;
-            //                ofLogVerbose("binary") << "Below Threshold, no need to check for brightnest color" << endl;
         }
-//        cout << "detectedState: " << detectedState << endl;
-//        cout << "detectedColor: " << detectedColor << endl;
-//        cout << "previousState: " << previousState << endl;
         if (previousState != detectedState && index < 10 && detectedState != 2 && detectedState != 3) {
-//            cout << "Transition detected from: " << previousState << " to " << detectedState << endl;
             detectedPatterns[i].updateBitAtIndex(detectedState, index);
+            dict[this->getLabel(i)].writeNextBit(detectedState);
             index++; // TODO: This can not be a shared counter, each tracker should have this
-//            ofLogNotice("tracker") << "detected pattern: binaryPatternString: " << detectedPatterns[i].binaryPatternString << endl;
         }
         previousState = detectedState;
+        
         
     }
     // Profit

@@ -34,6 +34,10 @@ public:
     void advance(); // Advance the framecount and set the state accordingly
     void updateBitAtIndex(int bit, int index);
     
+    void writeNextBit(int bit);
+    int  bitIndex;
+    void resetBitIndex();
+    
     string binaryPatternString; // Stores the actual binary pattern, use this for pattern matching.
     vector <int> binaryPatternVector; // Stores the actual binary pattern as a vector
     

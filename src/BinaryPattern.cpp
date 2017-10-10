@@ -13,8 +13,11 @@ using namespace std;
 
 // Constructor
 BinaryPattern::BinaryPattern() {
-    frameNum = 0;
+    frameNum = 0; // Used for animation
+    bitIndex = 0; // Used by the detector to write bits 
     state = START;
+    generatePattern(0); // Generate a blank pattern so that we can write to it later
+    
 }
 
 BinaryPattern::~BinaryPattern() {
@@ -106,6 +109,16 @@ void BinaryPattern::updateBitAtIndex(int bit, int index) {
 //    ofLogNotice("binary") << "writing bit: " << bit << " at index: " << index << endl;
     binaryPatternVector.at(index) = bit;
     binaryPatternString = convertIntVectorToString(binaryPatternVector);
+}
+
+void BinaryPattern::writeNextBit(int bit) {
+    binaryPatternVector.at(bitIndex) = bit;
+    binaryPatternString = convertIntVectorToString(binaryPatternVector);
+    bitIndex++;
+}
+
+void BinaryPattern::resetBitIndex() {
+    bitIndex = 0;
 }
 
 

@@ -59,7 +59,7 @@ void ofApp::setup(){
     animator.setMode(ANIMATION_MODE_CHASE);
     animator.setNumLedsPerStrip(3); // This also updates numLedsPerStrip in the OPC Client
     animator.setNumStrips(1); // TODO: Fix setNumStrips, it gets set to n-1
-    animator.setLedBrightness(155);
+    animator.setLedBrightness(255);
     animator.setFrameSkip(5);
     animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
 
@@ -216,11 +216,11 @@ void ofApp::keyPressed(int key){
             animator.setMode(ANIMATION_MODE_CHASE);
             animator.setFrameSkip(3);
             animator.update();
-            break;
+            break; 
         case 'b':
             detector.setMode(DETECTOR_MODE_BINARY);
             detector.centroids.clear();
-            isMapping = true;
+            isMapping = !isMapping;
             animator.setMode(ANIMATION_MODE_BINARY);
             animator.setFrameSkip(5);
             animator.update();

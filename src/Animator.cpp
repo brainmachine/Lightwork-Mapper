@@ -123,7 +123,7 @@ void Animator::populateLeds() {
 //////////////////////////////////////////////////////////////
 
 void Animator::update() {
-     //if (frameCount % frameSkip == 0) {
+     if (frameCount % frameSkip == 0) {
         switch(mode) {
             case ANIMATION_MODE_CHASE: {
                 chase();
@@ -143,7 +143,7 @@ void Animator::update() {
                 break;
 			}
         };
-    // }
+     }
     // Advance the internal counter
     frameCount++;
     
@@ -205,7 +205,7 @@ void Animator::binaryAnimation() {
     
     // Slow down the animation, set new state every 3 frames
    
-    cout << leds.size() << endl;
+//    cout << leds.size() << endl;
     for (int i = 0; i < leds.size(); i++) {
             switch (leds[i].binaryPattern.state){ // 0
                 case BinaryPattern::LOW: {
