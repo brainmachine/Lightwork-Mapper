@@ -240,7 +240,7 @@ void ofApp::keyPressed(int key){
             detector.centroids.clear();
             isMapping = !isMapping;
             animator.setMode(ANIMATION_MODE_BINARY);
-            animator.setFrameSkip(10);
+            animator.setFrameSkip(5);
             animator.update();
             break;
         case 'g':

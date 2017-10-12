@@ -87,7 +87,7 @@ void Detector::findBinary() {
         else {
             // Make a new BinaryPattern in the dictionary
             dict[this->getLabel(i)].first = BinaryPattern();
-            
+            dict[this->getLabel(i)].second.set(getCenter(i).x, getCenter(i).y);
             // Store metadata in the BinaryPattern instance (tracker coordinates, physical LED address, etc)
             
         }
@@ -168,7 +168,7 @@ void Detector::findBinary() {
         if (previousState != detectedState && detectedState != 2 && detectedState != 3) {
 //            dict[this->getLabel(i)].writeNextBit(detectedState);
             dict[this->getLabel(i)].first.writeNextBit(detectedState);
-            dict[this->getLabel(i)].second.set(getCenter(i).x, getCenter(i).y);
+            
             
         }
         previousState = detectedState;
