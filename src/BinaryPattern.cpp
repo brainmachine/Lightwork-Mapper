@@ -112,9 +112,12 @@ void BinaryPattern::updateBitAtIndex(int bit, int index) {
 }
 
 void BinaryPattern::writeNextBit(int bit) {
-    binaryPatternVector.at(bitIndex) = bit;
-    binaryPatternString = convertIntVectorToString(binaryPatternVector);
-    bitIndex++;
+    if (bitIndex < 10) {
+        binaryPatternVector.at(bitIndex) = bit;
+        binaryPatternString = convertIntVectorToString(binaryPatternVector);
+        bitIndex++;
+    }
+    
 }
 
 void BinaryPattern::resetBitIndex() {

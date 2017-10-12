@@ -82,14 +82,17 @@ void Detector::findBinary() {
 //        ofLogNotice("tracker") << "analyzing tracker at index: " << i << " with label: " << getLabel(i);
         // register the tracker (if it doesn't already exist)
         if (dict.count(getLabel(i)) > 0) {
-            cout << "label already exists, not addint to dictionary" << endl;
+            //cout << "label already exists, not adding to dictionary" << endl;
         }
         else {
-            dict[this->getLabel(i)] = BinaryPattern();
+            // Make a new BinaryPattern in the dictionary
+            dict[this->getLabel(i)].first = BinaryPattern();
+            
+            // Store metadata in the BinaryPattern instance (tracker coordinates, physical LED address, etc)
+            
         }
-         
         
-        getTracker();
+        //getTracker();
         cv::Rect rect = getBoundingRect(i);
         ofImage img;
         img = cam.getPixels();
@@ -114,7 +117,7 @@ void Detector::findBinary() {
         avgB = b/numPixels;
         ofFloatColor avgColor = ofFloatColor(avgR, avgG, avgB);
         float brightness = avgColor.getBrightness();
-        cout << "label: " << getLabel(i) <<" brightness: " << brightness << endl;
+        //cout << "label: " << getLabel(i) <<" brightness: " << brightness << endl;
 //        cout << "[" << avgR << ", " << avgG << ", " << avgB << "]," << endl;
         
         // If brightness is above threshold, get the brightest colour
@@ -147,7 +150,7 @@ void Detector::findBinary() {
                     break;
                 case 1: // START
                     detectedColor = "GREEN";
-                    dict[this->getLabel(i)].resetBitIndex();
+                    dict[this->getLabel(i)].first.resetBitIndex();
                     detectedState = 2;
                     break;
                 case 2: // HIGH
@@ -163,7 +166,10 @@ void Detector::findBinary() {
             detectedState = 3;
         }
         if (previousState != detectedState && detectedState != 2 && detectedState != 3) {
-            dict[this->getLabel(i)].writeNextBit(detectedState);
+//            dict[this->getLabel(i)].writeNextBit(detectedState);
+            dict[this->getLabel(i)].first.writeNextBit(detectedState);
+            dict[this->getLabel(i)].second.set(getCenter(i).x, getCenter(i).y);
+            
         }
         previousState = detectedState;
         

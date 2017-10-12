@@ -43,7 +43,7 @@ public:
     void findBinary();
     void findSequential();
     
-    map <unsigned int, BinaryPattern>            dict; // Key: tracker label, value: binary pattern
+    map <unsigned int, pair<BinaryPattern, ofPoint>>            dict; // Key: tracker label, value: binary pattern
     
     int                             previousState;
     

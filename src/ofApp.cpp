@@ -59,7 +59,7 @@ void ofApp::setup(){
     animator.setMode(ANIMATION_MODE_CHASE);
     animator.setNumLedsPerStrip(3); // This also updates numLedsPerStrip in the OPC Client
     animator.setNumStrips(1); // TODO: Fix setNumStrips, it gets set to n-1
-    animator.setLedBrightness(255);
+    animator.setLedBrightness(155);
     animator.setFrameSkip(5);
     animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
 
@@ -168,15 +168,30 @@ void ofApp::draw(){
 
     ofSetColor(0, 255, 0);
 	detector.draw(); // Draws the blob rect surrounding the contour+
-    // Prevent crash when we have more trackers than detectedPatterns, until detectedPatterns is dynamic
-    // TODO: make detectedPatterns dynamic
-    if (detector.size() < detector.dict.size()) {
-        for (int i = 0; i < detector.size(); i++) {
-            int label = detector.getLabel(i);
+    
+    
+    // Draw labels and detected patterns
+//    for (std::map<unsigned int, <BinaryPattern, ofPoint>>::iterator it=detector.dict.begin(); it!=detector.dict.end(); ++it) {
+//        
+//        int label = it->first;
+//        string patternString = it->second.binaryPatternString;
+//        
+//        ofDrawBitmapString(ofToString(label), detector.getCenter(i).x+10, detector.getCenter(i).y);
+//        ofDrawBitmapString(patternString, detector.getCenter(i).x+50, detector.getCenter(i).y);
+    
+    }
+    
+    
+    
+    
+    if (detector.dict.size() < detector.dict.size()) {
+        cout << detector.dict.size() << endl;
+        for (int i = 0; i < detector.dict.size(); i++) {
+            int label = detector.getLabel(i); // TODO this is wrong
 //            string pat = detector.detectedPatterns[i].binaryPatternString;
-            string pat = detector.dict[label].binaryPatternString;
-            ofDrawBitmapString(ofToString(label), detector.getCenter(i).x+10, detector.getCenter(i).y);
-            ofDrawBitmapString(pat, detector.getCenter(i).x+50, detector.getCenter(i).y);
+//            string pat = detector.dict[label].binaryPatternString;
+//            ofDrawBitmapString(ofToString(label), detector.getCenter(i).x+10, detector.getCenter(i).y);
+//            ofDrawBitmapString(pat, detector.getCenter(i).x+50, detector.getCenter(i).y);
         }
     }
     
@@ -217,7 +232,7 @@ void ofApp::keyPressed(int key){
             detector.centroids.clear();
             isMapping = !isMapping;
             animator.setMode(ANIMATION_MODE_BINARY);
-            animator.setFrameSkip(5);
+            animator.setFrameSkip(10);
             animator.update();
             break;
         case 'g':
