@@ -92,7 +92,6 @@ void Detector::findBinary() {
             
         }
         
-        //getTracker();
         cv::Rect rect = getBoundingRect(i);
         ofImage img;
         img = cam.getPixels();
@@ -102,9 +101,9 @@ void Detector::findBinary() {
         float r = 0;
         float g = 0;
         float b = 0;
-        for (int i = 0; i < pixels.getWidth(); i++) {
-            for (int j = 0; j < pixels.getHeight(); j++) {
-                ofFloatColor col = pixels.getColor(i, j);
+        for (int j = 0; j < pixels.getWidth(); j++) {
+            for (int k = 0; k < pixels.getHeight(); k++) {
+                ofFloatColor col = pixels.getColor(j, k);
                 r += col.r;
                 g += col.g;
                 b += col.b;
@@ -117,7 +116,7 @@ void Detector::findBinary() {
         avgB = b/numPixels;
         ofFloatColor avgColor = ofFloatColor(avgR, avgG, avgB);
         float brightness = avgColor.getBrightness();
-        //cout << "label: " << getLabel(i) <<" brightness: " << brightness << endl;
+        cout << "label: " << getLabel(i) <<" brightness: " << brightness << endl;
 //        cout << "[" << avgR << ", " << avgG << ", " << avgB << "]," << endl;
         
         // If brightness is above threshold, get the brightest colour
@@ -168,8 +167,8 @@ void Detector::findBinary() {
         if (previousState != detectedState && detectedState != 2 && detectedState != 3) {
 //            dict[this->getLabel(i)].writeNextBit(detectedState);
             dict[this->getLabel(i)].first.writeNextBit(detectedState);
-            
-            
+            cout << "numTrackers: " << this->size() << " index: " << i <<" label: " << this->getLabel(i) << " detectedState: " << detectedState << endl;
+
         }
         previousState = detectedState;
         
