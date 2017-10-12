@@ -43,10 +43,8 @@ public:
     void findBinary();
     void findSequential();
     
-    vector <BinaryPattern>          detectedPatterns;
     map <unsigned int, BinaryPattern>            dict; // Key: tracker label, value: binary pattern
     
-    int                             index;
     int                             previousState;
     
     

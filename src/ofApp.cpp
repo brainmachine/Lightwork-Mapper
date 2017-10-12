@@ -110,13 +110,7 @@ void ofApp::update() {
             knownPatterns.push_back(animator.leds[i].binaryPattern.binaryPatternString);
             //cout << animator.leds[i].binaryPattern.binaryPatternString << endl;
         }
-//        cout << "detected patterns: " << endl;
-        for (int i = 0; i < detector.detectedPatterns.size(); i++) {
-            if (detector.detectedPatterns[i].binaryPatternString != "0000000000") {
-//                cout << detector.detectedPatterns[i].binaryPatternString << endl;
-            }
-            
-        }
+
         
         /*
         for (int p=0; p < animator.leds.size(); p++)
@@ -176,10 +170,11 @@ void ofApp::draw(){
 	detector.draw(); // Draws the blob rect surrounding the contour+
     // Prevent crash when we have more trackers than detectedPatterns, until detectedPatterns is dynamic
     // TODO: make detectedPatterns dynamic
-    if (detector.size() < detector.detectedPatterns.size()) {
+    if (detector.size() < detector.dict.size()) {
         for (int i = 0; i < detector.size(); i++) {
             int label = detector.getLabel(i);
-            string pat = detector.detectedPatterns[i].binaryPatternString;
+//            string pat = detector.detectedPatterns[i].binaryPatternString;
+            string pat = detector.dict[label].binaryPatternString;
             ofDrawBitmapString(ofToString(label), detector.getCenter(i).x+10, detector.getCenter(i).y);
             ofDrawBitmapString(pat, detector.getCenter(i).x+50, detector.getCenter(i).y);
         }

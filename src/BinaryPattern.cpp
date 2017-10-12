@@ -16,7 +16,7 @@ BinaryPattern::BinaryPattern() {
     frameNum = 0; // Used for animation
     bitIndex = 0; // Used by the detector to write bits 
     state = START;
-    generatePattern(0); // Generate a blank pattern so that we can write to it later
+    generatePattern(0);
     
 }
 

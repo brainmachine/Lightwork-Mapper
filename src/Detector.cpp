@@ -9,13 +9,7 @@
 #include "Detector.h"
 
 Detector::Detector() {
-    for (int i = 0; i < 150; i++) { // TODO: make this dynamic!
-        detectedPatterns.push_back(BinaryPattern());
-        detectedPatterns[i].generatePattern(0);
-    }
-    
     //detectedPattern.generatePattern(0); // Populates bPat.pattern and bPat.patternVector with zeros
-    index = 0; // Index to write to detected pattern
 }
 
 Detector::~Detector() {
@@ -65,13 +59,14 @@ void Detector::updateViewOnly() {
     background.setThresholdValue(thresholdValue);
     background.update(cam, thresholded);
     
+    thresholded.update();
     
     // Get contours
     ofxCv::blur(thresholded, 5); // TODO: do we need this?
     if (mode != DETECTOR_MODE_OFF) {
         findContours(thresholded);
     }
-    thresholded.update();
+    
     
 }
 
@@ -86,8 +81,13 @@ void Detector::findBinary() {
     for (int i = 0; i < this->size(); i++) {
 //        ofLogNotice("tracker") << "analyzing tracker at index: " << i << " with label: " << getLabel(i);
         // register the tracker (if it doesn't already exist)
-        dict[this->getLabel(i)] = BinaryPattern();
-        
+        if (dict.count(getLabel(i)) > 0) {
+            cout << "label already exists, not addint to dictionary" << endl;
+        }
+        else {
+            dict[this->getLabel(i)] = BinaryPattern();
+        }
+         
         
         getTracker();
         cv::Rect rect = getBoundingRect(i);
@@ -147,7 +147,6 @@ void Detector::findBinary() {
                     break;
                 case 1: // START
                     detectedColor = "GREEN";
-                    index = 0;
                     dict[this->getLabel(i)].resetBitIndex();
                     detectedState = 2;
                     break;
@@ -163,10 +162,8 @@ void Detector::findBinary() {
             detectedColor = "BLACK";
             detectedState = 3;
         }
-        if (previousState != detectedState && index < 10 && detectedState != 2 && detectedState != 3) {
-            detectedPatterns[i].updateBitAtIndex(detectedState, index);
+        if (previousState != detectedState && detectedState != 2 && detectedState != 3) {
             dict[this->getLabel(i)].writeNextBit(detectedState);
-            index++; // TODO: This can not be a shared counter, each tracker should have this
         }
         previousState = detectedState;
         
