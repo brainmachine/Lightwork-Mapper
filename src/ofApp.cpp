@@ -171,7 +171,15 @@ void ofApp::draw(){
     
     
     // Draw labels and detected patterns
-//    for (std::map<unsigned int, <BinaryPattern, ofPoint>>::iterator it=detector.dict.begin(); it!=detector.dict.end(); ++it) {
+
+    for (auto it = detector.dict.begin(); it!=detector.dict.end(); ++it) {
+        int label = it->first;
+        string patternString = it->second.first.binaryPatternString;
+        ofPoint point = it->second.second;
+        ofDrawBitmapString(ofToString(label), point.x+10, point.y);
+        ofDrawBitmapString(patternString, point.x+50, point.y);
+    }
+    //for (std::map<unsigned int, <BinaryPattern, ofPoint>>::iterator it=detector.dict.begin(); it!=detector.dict.end(); ++it) {
 //        
 //        int label = it->first;
 //        string patternString = it->second.binaryPatternString;
@@ -179,7 +187,7 @@ void ofApp::draw(){
 //        ofDrawBitmapString(ofToString(label), detector.getCenter(i).x+10, detector.getCenter(i).y);
 //        ofDrawBitmapString(patternString, detector.getCenter(i).x+50, detector.getCenter(i).y);
     
-    }
+  //  }
     
     
     
