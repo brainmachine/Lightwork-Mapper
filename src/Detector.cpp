@@ -116,11 +116,11 @@ void Detector::findBinary() {
         avgB = b/numPixels;
         ofFloatColor avgColor = ofFloatColor(avgR, avgG, avgB);
         float brightness = avgColor.getBrightness();
-
+        ofLogVerbose("detector") << "Brightness: " << brightness;
         // If brightness is above threshold, get the brightest colour
         int dist;
         
-        float brightnessThreshold = 0.65;
+        float brightnessThreshold = 0.75;
         if (brightness >= brightnessThreshold) {
             //                ofLogVerbose("binary") << "Above threshold, check for brightest color" << endl;
             vector<float> colours;
@@ -158,8 +158,7 @@ void Detector::findBinary() {
         
         // Write detected byte to dictionary(Label:BinaryPattern)
         if (dict[getLabel(i)].first.previousState != dict[getLabel(i)].first.detectedState && dict[getLabel(i)].first.detectedState != 2 && dict[getLabel(i)].first.detectedState != 3) {
-            dict[this->getLabel(i)].first.writeNextBit(dict[getLabel(i)].first.detectedState);
-            cout << "numTrackers: " << this->size() << " index: " << i <<" label: " << this->getLabel(i) << " detectedState: " << dict[getLabel(i)].first.detectedState << endl;
+            dict[getLabel(i)].first.writeNextBit(dict[getLabel(i)].first.detectedState);
 
         }
         
