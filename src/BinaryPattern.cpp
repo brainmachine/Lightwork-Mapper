@@ -17,6 +17,8 @@ BinaryPattern::BinaryPattern() {
     bitIndex = 0; // Used by the detector to write bits 
     state = START;
     generatePattern(0);
+    previousState = 0;
+    detectedState = 0; 
     
 }
 

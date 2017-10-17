@@ -45,8 +45,6 @@ public:
     
     map <unsigned int, pair<BinaryPattern, ofPoint>>            dict; // Key: tracker label, value: binary pattern
     
-    int                             previousState;
-    
     
 private:
     

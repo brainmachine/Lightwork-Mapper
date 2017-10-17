@@ -118,8 +118,8 @@ void Detector::findBinary() {
         float brightness = avgColor.getBrightness();
 
         // If brightness is above threshold, get the brightest colour
-        int detectedState;
         int dist;
+        
         float brightnessThreshold = 0.65;
         if (brightness >= brightnessThreshold) {
             //                ofLogVerbose("binary") << "Above threshold, check for brightest color" << endl;
@@ -138,14 +138,14 @@ void Detector::findBinary() {
             // OFF(3) -> (off)
             switch (dist) {
                 case 0: // LOW (RED)
-                    detectedState = 0;
+                    dict[getLabel(i)].first.detectedState = 0;
                     break;
                 case 1: // START (GREEN)
                     dict[this->getLabel(i)].first.resetBitIndex();
-                    detectedState = 2;
+                    dict[getLabel(i)].first.detectedState = 2;
                     break;
                 case 2: // HIGH (BLUE)
-                    detectedState = 1;
+                    dict[getLabel(i)].first.detectedState = 1;
                     break;
                 default: // OFF
                     ofLogError("binary") << "Brightest colour is not a known colour!" << endl;
@@ -153,17 +153,17 @@ void Detector::findBinary() {
         }
         else {
             // In between bytes (BLACK)
-            detectedState = 3;
+            dict[getLabel(i)].first.detectedState = 3;
         }
         
         // Write detected byte to dictionary(Label:BinaryPattern)
-        if (previousState != detectedState && detectedState != 2 && detectedState != 3) {
-            dict[this->getLabel(i)].first.writeNextBit(detectedState);
-            cout << "numTrackers: " << this->size() << " index: " << i <<" label: " << this->getLabel(i) << " detectedState: " << detectedState << endl;
+        if (dict[getLabel(i)].first.previousState != dict[getLabel(i)].first.detectedState && dict[getLabel(i)].first.detectedState != 2 && dict[getLabel(i)].first.detectedState != 3) {
+            dict[this->getLabel(i)].first.writeNextBit(dict[getLabel(i)].first.detectedState);
+            cout << "numTrackers: " << this->size() << " index: " << i <<" label: " << this->getLabel(i) << " detectedState: " << dict[getLabel(i)].first.detectedState << endl;
 
         }
         
-        previousState = detectedState;
+        dict[getLabel(i)].first.previousState = dict[getLabel(i)].first.detectedState;
         
         
     }
