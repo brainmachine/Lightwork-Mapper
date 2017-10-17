@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     // Set the log level
-    ofSetLogLevel("detector", OF_LOG_VERBOSE);
+    ofSetLogLevel("match", OF_LOG_VERBOSE);
     ofLogToConsole();
     
     // Set initial camera dimensions
@@ -57,9 +57,9 @@ void ofApp::setup(){
     // Animator settings
     animator.setLedInterface(&opcClient); // Setting a POINTER to the interface, so the Animator class can update pixels internally
     animator.setMode(ANIMATION_MODE_CHASE);
-    animator.setNumLedsPerStrip(3); // This also updates numLedsPerStrip in the OPC Client
+    animator.setNumLedsPerStrip(6); // This also updates numLedsPerStrip in the OPC Client
     animator.setNumStrips(1); // TODO: Fix setNumStrips, it gets set to n-1
-    animator.setLedBrightness(231);
+    animator.setLedBrightness(155);
     animator.setFrameSkip(5);
     animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
 
@@ -93,46 +93,34 @@ void ofApp::update() {
     }
     
     else if (animator.mode == ANIMATION_MODE_BINARY && isMapping) { // Redundant, for  now...
-        // Update LEDs and Tracker
-
+        // Update LEDs and Detector
         animator.update();
         detector.update();
         
-        vector <string> knownPatterns;
-        vector <string> detectedPatterns;
-        
-        //cout << "known patterns:" << endl;
-        for (int i = 0; i < animator.leds.size(); i++) {
-            knownPatterns.push_back(animator.leds[i].binaryPattern.binaryPatternString);
-            //cout << animator.leds[i].binaryPattern.binaryPatternString << endl;
-        }
-
-        
-        /*
-        for (int p=0; p < animator.leds.size(); p++)
-        {
-            for (int t = 0; t < tracker.detectedPatterns.size(); t++)
-            {
-                
-                size_t found = animator.leds[p].binaryPattern.binaryPatternString.find(tracker.detectedPatterns[t].binaryPatternString);
-                if(found != string::npos) {
-                    cout << "WE HAVE A MATCH for LED number: " << animator.leds[p].address << " - " << animator.leds[p].binaryPattern.binaryPatternString << " matches " << tracker.detectedPatterns[t].binaryPatternString << " Tracker label: " << tracker.getLabel(t) << endl;
+        // Match detected patterns with known patterns
+        for (auto it = detector.dict.begin(); it != detector.dict.end(); it++) {
+            string detected = it->second.first.binaryPatternString;
+            for (auto jit = animator.leds.begin(); jit != animator.leds.end(); jit++) {
+                string known = jit->binaryPattern.binaryPatternString;
+                if (detected == known && !jit->hasFoundMatch) {
+                    // Assign coordinates to LED
+                    jit->coord.x = it->second.second.x;
+                    jit->coord.y = it->second.second.y;
+                    jit->hasFoundMatch = true; // TODO: match more than once to verify
+                    ofLogVerbose("match") << "We found a match!!!";
                 }
-                
-//                if (tracker.detectedPatterns[t].binaryPatternString == animator.leds[p].binaryPattern.binaryPatternString)
-//                {
-//                    //inputlist[i] ="*";
-//                    cout << "WE HAVE A MATCH!" << endl;
-//                }
             }
         }
-         */
         
+        // Check if all LEDs have a match
         
-        // Pattern matching
-//        if (tracker.detectedPattern.binaryPatternString == animator.binaryPattern.binaryPatternString) {
-//            ofLogNotice("Match FOUND!!!");
-//        }
+        for (auto it = animator.leds.begin(); it != animator.leds.end(); it++) {
+            if (it->hasFoundMatch) {
+                ofLogVerbose("match") << "LED Address: " << it->address << " coord: " << it->coord;
+            }
+        }
+        
+
     }
     
     // New camera frame: Turn on a new LED and detect the location.

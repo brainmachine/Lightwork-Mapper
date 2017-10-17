@@ -13,6 +13,7 @@ LED::LED() {
     color = ofColor(0, 0, 0);
     address = 0;
     coord = ofPoint(0, 0);
+    hasFoundMatch = false;
 //    binaryPattern = BinaryPattern();
 }
 

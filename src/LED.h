@@ -28,6 +28,7 @@ class LED {
     int address; // LED Address
     BinaryPattern binaryPattern;
     ofPoint coord;
+    bool hasFoundMatch;
     
     void setColor(ofColor col);
     void setAddress(int addr);
