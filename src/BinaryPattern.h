@@ -54,6 +54,7 @@ public:
 
     int frameNum;
     
+    
 private:
     vector <int> convertStringToIntVector(string pattern);
     string convertIntVectorToString(vector <int> pattern);

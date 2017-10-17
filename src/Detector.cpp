@@ -78,8 +78,8 @@ void Detector::findBinary() {
     }
     // Iterate though all active trackers
     // The size may vary, and the index does not necessarily line up with tracker label (id)
+
     for (int i = 0; i < this->size(); i++) {
-//        ofLogNotice("tracker") << "analyzing tracker at index: " << i << " with label: " << getLabel(i);
         // register the tracker (if it doesn't already exist)
         if (dict.count(getLabel(i)) > 0) {
             //cout << "label already exists, not adding to dictionary" << endl;
@@ -88,10 +88,10 @@ void Detector::findBinary() {
             // Make a new BinaryPattern in the dictionary
             dict[this->getLabel(i)].first = BinaryPattern();
             dict[this->getLabel(i)].second.set(getCenter(i).x, getCenter(i).y);
-            // Store metadata in the BinaryPattern instance (tracker coordinates, physical LED address, etc)
-            
         }
         
+        // Get brightness and average colour in region
+        ofLogVerbose("detector") << "Analysizing brightness for tracker at index: " << i << " with label: " << getLabel(i);
         cv::Rect rect = getBoundingRect(i);
         ofImage img;
         img = cam.getPixels();
@@ -116,13 +116,8 @@ void Detector::findBinary() {
         avgB = b/numPixels;
         ofFloatColor avgColor = ofFloatColor(avgR, avgG, avgB);
         float brightness = avgColor.getBrightness();
-        cout << "label: " << getLabel(i) <<" brightness: " << brightness << endl;
-//        cout << "[" << avgR << ", " << avgG << ", " << avgB << "]," << endl;
-        
+
         // If brightness is above threshold, get the brightest colour
-        // Analysis suggests the threshold is around 0.4, I'll use 0.45
-        // TODO: Automatically detect threshold value (depends on lighting conditions, background material colour etc.)
-        string detectedColor = "";
         int detectedState;
         int dist;
         float brightnessThreshold = 0.65;
@@ -135,7 +130,6 @@ void Detector::findBinary() {
             
             // Get the index of the brightest average colour
             dist = distance(colours.begin(), max_element(colours.begin(), colours.end()));
-            //              cout << dist << endl;
             
             // LED binary states:
             // LOW(0) -> RED,
@@ -143,17 +137,14 @@ void Detector::findBinary() {
             // START(2) -> GREEN,
             // OFF(3) -> (off)
             switch (dist) {
-                case 0: // LOW
-                    detectedColor = "RED";
+                case 0: // LOW (RED)
                     detectedState = 0;
                     break;
-                case 1: // START
-                    detectedColor = "GREEN";
+                case 1: // START (GREEN)
                     dict[this->getLabel(i)].first.resetBitIndex();
                     detectedState = 2;
                     break;
-                case 2: // HIGH
-                    detectedColor = "BLUE";
+                case 2: // HIGH (BLUE)
                     detectedState = 1;
                     break;
                 default: // OFF
@@ -161,21 +152,24 @@ void Detector::findBinary() {
             }
         }
         else {
-            detectedColor = "BLACK";
+            // In between bytes (BLACK)
             detectedState = 3;
         }
+        
+        // Write detected byte to dictionary(Label:BinaryPattern)
         if (previousState != detectedState && detectedState != 2 && detectedState != 3) {
-//            dict[this->getLabel(i)].writeNextBit(detectedState);
             dict[this->getLabel(i)].first.writeNextBit(detectedState);
             cout << "numTrackers: " << this->size() << " index: " << i <<" label: " << this->getLabel(i) << " detectedState: " << detectedState << endl;
 
         }
+        
         previousState = detectedState;
         
         
     }
     // Profit
 }
+
 void Detector::findSequential() {
     bool success = false; // Indicate if we successfully mapped an LED on this frame (visible or off-canvas
     
@@ -194,13 +188,14 @@ void Detector::findSequential() {
         int previousBrightness = 0;
         for(int i = 0; i < size(); i++) {
             int brightness = 0;
+            // Copy the image region of interest
             cv::Rect rect = getBoundingRect(i);
-            //ofLogNotice("x:" + ofToString(rect.x)+" y:"+ ofToString(rect.y)+" w:" + ofToString(rect.width) + " h:"+ ofToString(rect.height));
             ofImage img;
             img = thresholded;
             img.crop(rect.x, rect.y, rect.width, rect.height);
             ofPixels pixels = img.getPixels();
             
+            // Calculate brightness of region
             for (int i = 0; i< pixels.size(); i++) {
                 brightness += pixels[i];
             }
@@ -212,9 +207,8 @@ void Detector::findSequential() {
             }
             previousBrightness = brightness;
             success = true;
-            //ofLogNotice("Brightness: " + ofToString(brightness));
         }
-        ofLogNotice("tracking") << "brightest index: " << ofToString(brightestIndex);
+        
         ofPoint center = ofxCv::toOf(getCenter(brightestIndex));
         centroids.push_back(center);
         hasFoundFirstContour = true;

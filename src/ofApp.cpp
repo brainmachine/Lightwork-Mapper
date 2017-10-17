@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     // Set the log level
-    ofSetLogLevel("tracking", OF_LOG_VERBOSE);
+    ofSetLogLevel("detector", OF_LOG_VERBOSE);
     ofLogToConsole();
     
     // Set initial camera dimensions
@@ -59,7 +59,7 @@ void ofApp::setup(){
     animator.setMode(ANIMATION_MODE_CHASE);
     animator.setNumLedsPerStrip(2); // This also updates numLedsPerStrip in the OPC Client
     animator.setNumStrips(1); // TODO: Fix setNumStrips, it gets set to n-1
-    animator.setLedBrightness(155);
+    animator.setLedBrightness(231);
     animator.setFrameSkip(5);
     animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
 
@@ -67,11 +67,7 @@ void ofApp::setup(){
     detector.setMode(DETECTOR_MODE_OFF);
     detector.learningTime.set("Learning Time", 4, 0, 30);
     detector.thresholdValue.set("Threshold Value", 50, 0, 255);
-    //cout << "tracker detected patterns (pre detection)" << endl;
-    //for (int i = 0; i < detector.detectedPatterns.size(); i++) {
-    //    cout << detector.detectedPatterns[i].binaryPatternString << endl;
-    //}
-    
+
     // SVG
     svg.setViewbox(0, 0, camWidth, camHeight);
 
