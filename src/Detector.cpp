@@ -123,9 +123,11 @@ void Detector::findBinary() {
         // If brightness is above threshold, get the brightest colour
         int dist;
         
-        float brightnessThreshold = 0.85;
+        float brightnessThreshold = 0.65;
         if (brightness >= brightnessThreshold) {
             //                ofLogVerbose("binary") << "Above threshold, check for brightest color" << endl;
+            
+            
             vector<float> colours;
             colours.push_back(avgR);
             colours.push_back(avgG);
@@ -134,11 +136,33 @@ void Detector::findBinary() {
             // Get the index of the brightest average colour
             dist = distance(colours.begin(), max_element(colours.begin(), colours.end()));
             
+        
+            
+            // Note: the above state DO NOT reflect the 'dist' used here
+            if (dist == 1 || dist == 2) {
+                // Check if Blue and Green are too close to each other
+                // When we light up green, it also brings up the blue levels
+                // We want to make sure that the distance between green and blue is sufficient
+                // If the distance is greater than the threshold we assume it's blue, if it's below it's green
+                float colorDistanceThreshold = 0.1;
+                float colorDistance = std::abs(avgB-avgG);
+                
+                if (colorDistance <= colorDistanceThreshold) {
+                    dist = 1; // Set to green
+                    cout << "Distance between green and blue is lower than threshold. We should detect GREEN" << endl;
+                }
+                else {
+                    dist = 2; // Set to blue
+                    cout << "Distance between green and blue is greater than threshold. We should detect BLUE" << endl;
+                }
+            }
+            
             // LED binary states:
             // LOW(0) -> RED,
             // HIGH(1) -> BLUE
             // START(2) -> GREEN,
             // OFF(3) -> (off)
+            
             switch (dist) {
                 case 0: // LOW (RED)
                     dict[getLabel(i)].first.detectedState = 0;
@@ -171,6 +195,8 @@ void Detector::findBinary() {
     }
     // Profit
 }
+
+
 
 void Detector::findSequential() {
     bool success = false; // Indicate if we successfully mapped an LED on this frame (visible or off-canvas

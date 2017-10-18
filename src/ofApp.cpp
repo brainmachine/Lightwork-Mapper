@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     // Set the log level
-    ofSetLogLevel("match", OF_LOG_VERBOSE);
+    ofSetLogLevel("brightness", OF_LOG_VERBOSE);
     ofLogToConsole();
     
     // Set initial camera dimensions

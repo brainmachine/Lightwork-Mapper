@@ -13,6 +13,7 @@
 #include "ofxCv.h"
 #include "BinaryPattern.h"
 #include "LED.h"
+#include "Scope.h"
 #include <map>
 
 enum detector_mode_t {DETECTOR_MODE_CHASE, DETECTOR_MODE_BINARY, DETECTOR_MODE_OFF};
@@ -44,6 +45,7 @@ public:
     void findSequential();
     
     map <unsigned int, pair<BinaryPattern, ofPoint>>            dict; // Key: tracker label, value: binary pattern
+    
     
     
 private:

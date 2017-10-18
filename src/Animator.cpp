@@ -205,19 +205,24 @@ void Animator::binaryAnimation() {
     
     // Slow down the animation, set new state every 3 frames
    
+    // Calibration variables for color channels (manual settings for now)
+    int rOffset = 0;
+    int gOffset = 30;
+    int bOffset = -30;
+    
 //    cout << leds.size() << endl;
     for (int i = 0; i < leds.size(); i++) {
             switch (leds[i].binaryPattern.state){ // 0
                 case BinaryPattern::LOW: {
-                    leds.at(i).color = ofColor(ledBrightness, 0, 0); // RED
+                    leds.at(i).color = ofColor(ledBrightness+rOffset, 0, 0); // RED
                     break;
                 }
                 case BinaryPattern::HIGH: { // 1
-                    leds.at(i).color = ofColor(0, 0, ledBrightness); // BLUE
+                    leds.at(i).color = ofColor(0, 0, ledBrightness+bOffset); // BLUE
                     break;
                 }
                 case BinaryPattern::START: { // 2
-                    leds.at(i).color = ofColor(0, ledBrightness, 0); // GREEN
+                    leds.at(i).color = ofColor(0, ledBrightness+gOffset, 0); // GREEN
                     break;
                 }
                 case BinaryPattern::OFF: { // 3
