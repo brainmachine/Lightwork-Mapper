@@ -59,7 +59,7 @@ void ofApp::setup(){
     animator.setMode(ANIMATION_MODE_CHASE);
     animator.setNumLedsPerStrip(20); // This also updates numLedsPerStrip in the OPC Client
     animator.setNumStrips(1); // TODO: Fix setNumStrips, it gets set to n-1
-    animator.setLedBrightness(100);
+    animator.setLedBrightness(150);
     animator.setFrameSkip(5);
     animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
 
@@ -104,11 +104,11 @@ void ofApp::update() {
             for (auto jit = animator.leds.begin(); jit != animator.leds.end(); jit++) {
                 //ofLogVerbose("match") << "checking match for led at index: " << jit->address;
                 string known = jit->binaryPattern.binaryPatternString;
-                if (detected == known && !jit->hasFoundMatch) {
+                if (detected == known /*&& !jit->hasFoundMatch*/) {
                     // Assign coordinates to LED
                     jit->coord.x = it->second.second.x;
                     jit->coord.y = it->second.second.y;
-//                    jit->hasFoundMatch = true; // TODO: match more than once to verify
+                    //jit->hasFoundMatch = true; // TODO: match more than once to verify
                     ofLogVerbose("match") << "LED Address: " << jit->address << " coord: " << jit->coord << " pattern: " << jit->binaryPattern.binaryPatternString;
                 }
             }

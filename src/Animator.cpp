@@ -212,24 +212,28 @@ void Animator::binaryAnimation() {
     
 //    cout << leds.size() << endl;
     for (int i = 0; i < leds.size(); i++) {
-            switch (leds[i].binaryPattern.state){ // 0
-                case BinaryPattern::LOW: {
-                    leds.at(i).color = ofColor(ledBrightness+rOffset, 0, 0); // RED
-                    break;
-                }
-                case BinaryPattern::HIGH: { // 1
-                    leds.at(i).color = ofColor(0, 0, ledBrightness+bOffset); // BLUE
-                    break;
-                }
-                case BinaryPattern::START: { // 2
-                    leds.at(i).color = ofColor(0, ledBrightness+gOffset, 0); // GREEN
-                    break;
-                }
-                case BinaryPattern::OFF: { // 3
-                    leds.at(i).color = ofColor(0, 0, 0); // BLACK
-                    break;
-                }
+//        if (leds[i].hasFoundMatch) {
+//            leds[i].binaryPattern.state = BinaryPattern::OFF;
+//        }
+        
+        switch (leds[i].binaryPattern.state){ // 0
+            case BinaryPattern::LOW: {
+                leds.at(i).color = ofColor(ledBrightness+rOffset, 0, 0); // RED
+                break;
             }
+            case BinaryPattern::HIGH: { // 1
+                leds.at(i).color = ofColor(0, 0, ledBrightness+bOffset); // BLUE
+                break;
+            }
+            case BinaryPattern::START: { // 2
+                leds.at(i).color = ofColor(0, ledBrightness+gOffset, 0); // GREEN
+                break;
+            }
+            case BinaryPattern::OFF: { // 3
+                leds.at(i).color = ofColor(0, 0, 0); // BLACK
+                break;
+            }
+        }
         leds[i].binaryPattern.advance();
     }
 }
