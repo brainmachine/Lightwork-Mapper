@@ -116,9 +116,9 @@ void Detector::findBinary() {
         avgB = b/numPixels;
         
 // ---->
-        if (i == 2) {
-             cout << "[" << avgR << ", " << avgG << ", " << avgB << "]," << endl;
-        }
+//        if (i == 2) {
+//             cout << "[" << avgR << ", " << avgG << ", " << avgB << "]," << endl;
+//        }
 // ---->
         
         ofFloatColor avgColor = ofFloatColor(avgR, avgG, avgB);

@@ -57,7 +57,7 @@ void ofApp::setup(){
     // Animator settings
     animator.setLedInterface(&opcClient); // Setting a POINTER to the interface, so the Animator class can update pixels internally
     animator.setMode(ANIMATION_MODE_CHASE);
-    animator.setNumLedsPerStrip(20); // This also updates numLedsPerStrip in the OPC Client
+    animator.setNumLedsPerStrip(50); // This also updates numLedsPerStrip in the OPC Client
     animator.setNumStrips(1); // TODO: Fix setNumStrips, it gets set to n-1
     animator.setLedBrightness(150);
     animator.setFrameSkip(5);
@@ -155,15 +155,15 @@ void ofApp::draw(){
     
     
     // Draw labels and detected patterns
-/*
+
     for (auto it = detector.dict.begin(); it!=detector.dict.end(); ++it) {
         int label = it->first;
         string patternString = it->second.first.binaryPatternString;
         ofPoint point = it->second.second;
         ofDrawBitmapString(ofToString(label), point.x+10, point.y);
-        ofDrawBitmapString(patternString, point.x+50, point.y);
+        //ofDrawBitmapString(patternString, point.x+50, point.y);
     }
-*/
+
     
     // Draw the detected contour center points
     for (int i = 0; i < detector.centroids.size(); i++) {
@@ -230,6 +230,12 @@ void ofApp::keyPressed(int key){
             detector.centroids = removeDuplicatesFromPoints(detector.centroids);
             break;
         case 'e':
+            vector <ofPoint> pts;
+            for (int i = 0; i < animator.leds.size(); i++) {
+                pts.push_back(animator.leds[i].coord);
+            }
+            
+            generateSVG(pts);
             break;
     }
 
@@ -313,11 +319,11 @@ void ofApp::generateSVG(vector <ofPoint> points) {
     }
     svg.addPath(path);
     path.draw();
-	if (detector.centroids.size() == 0) {
-		//User is trying to save without anything to output - bail
-		ofLogError("No point data to save, run mapping first");
-		return;
-	}
+//	if (detector.centroids.size() == 0) {
+//		//User is trying to save without anything to output - bail
+//		ofLogError("No point data to save, run mapping first");
+//		return;
+//	}
 
 	ofFileDialogResult saveFileResult = ofSystemSaveDialog("layout.svg", "Save layout file");
 	if (saveFileResult.bSuccess) {
