@@ -21,21 +21,30 @@ using namespace std;
 
 class LED {
     public:
-    LED();
-    ~LED();
     
-    ofColor color; // Current LED color
-    int address; // LED Address
-    BinaryPattern binaryPattern;
-    ofPoint coord;
-    bool hasFoundMatch;
-    
-    void setColor(ofColor col);
-    void setAddress(int addr);
-    void setBinaryPattern(BinaryPattern pat);
-    void setCoord(ofPoint coordinates);
-    
+        LED();
+        ~LED();
+        
+        ofColor color; // Current LED color
+        int address; // LED Address
+        BinaryPattern binaryPattern;
+        ofPoint coord;
+        bool hasFoundMatch;
+        
+        void setColor(ofColor col);
+        void setAddress(int addr);
+        void setBinaryPattern(BinaryPattern pat);
+        void setCoord(ofPoint c);
+
     private:
+    
+        ofPoint lastCoord;
+        int validationCount; // How many times the coordinates have been within acceptable range
+        int validationThreshold; // ValidationCount needs to reach this number for the point to be validated (and hasFoundMatch to be set to true)
+        float distanceThreshold; // How far away the points can be to pass as acceptable
+    
+        void validateCoord(ofPoint c);
+    
     
     
 };

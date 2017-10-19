@@ -59,7 +59,7 @@ void ofApp::setup(){
     animator.setMode(ANIMATION_MODE_CHASE);
     animator.setNumLedsPerStrip(50); // This also updates numLedsPerStrip in the OPC Client
     animator.setNumStrips(1); // TODO: Fix setNumStrips, it gets set to n-1
-    animator.setLedBrightness(150);
+    animator.setLedBrightness(100);
     animator.setFrameSkip(5);
     animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
 
@@ -104,11 +104,9 @@ void ofApp::update() {
             for (auto jit = animator.leds.begin(); jit != animator.leds.end(); jit++) {
                 //ofLogVerbose("match") << "checking match for led at index: " << jit->address;
                 string known = jit->binaryPattern.binaryPatternString;
-                if (detected == known /*&& !jit->hasFoundMatch*/) {
+                if (detected == known && !jit->hasFoundMatch) {
                     // Assign coordinates to LED
-                    jit->coord.x = it->second.second.x;
-                    jit->coord.y = it->second.second.y;
-                    //jit->hasFoundMatch = true; // TODO: match more than once to verify
+                    jit->setCoord(it->second.second);
                     ofLogVerbose("match") << "LED Address: " << jit->address << " coord: " << jit->coord << " pattern: " << jit->binaryPattern.binaryPatternString;
                 }
             }
@@ -151,11 +149,11 @@ void ofApp::draw(){
 	camPtr->draw(0,0);
 
     ofSetColor(0, 255, 0);
-	detector.draw(); // Draws the blob rect surrounding the contour+
+	detector.draw(); // Draws the blob rect surrounding the contour
     
     
     // Draw labels and detected patterns
-
+/*
     for (auto it = detector.dict.begin(); it!=detector.dict.end(); ++it) {
         int label = it->first;
         string patternString = it->second.first.binaryPatternString;
@@ -163,7 +161,7 @@ void ofApp::draw(){
         ofDrawBitmapString(ofToString(label), point.x+10, point.y);
         //ofDrawBitmapString(patternString, point.x+50, point.y);
     }
-
+*/
     
     // Draw the detected contour center points
     for (int i = 0; i < detector.centroids.size(); i++) {
@@ -234,6 +232,8 @@ void ofApp::keyPressed(int key){
             for (int i = 0; i < animator.leds.size(); i++) {
                 pts.push_back(animator.leds[i].coord);
             }
+            
+            //pts = removeDuplicatesFromPoints(pts);
             
             generateSVG(pts);
             break;

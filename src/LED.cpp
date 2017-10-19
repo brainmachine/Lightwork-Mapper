@@ -14,6 +14,12 @@ LED::LED() {
     address = 0;
     coord = ofPoint(0, 0);
     hasFoundMatch = false;
+    
+    lastCoord = ofPoint(0,0);
+    validationCount = 0;
+    validationThreshold = 20; // TODO: Magic
+    distanceThreshold = 1.5; // TODO: Tweak this Magic Number
+    
 //    binaryPattern = BinaryPattern();
 }
 
@@ -33,6 +39,33 @@ void LED::setBinaryPattern(BinaryPattern pat) {
     binaryPattern = pat;
 }
 
-void LED::setCoord(ofPoint coordinates) {
-    coord = coordinates;
+void LED::setCoord(ofPoint c) {
+    coord = c;
+    validateCoord(c);
+    
+}
+
+void LED::validateCoord(ofPoint c) {
+    if (coord == ofPoint(0, 0) && lastCoord == ofPoint(0,0)) {
+        // Coord has not been set, don't validate
+        return;
+    }
+    
+    float dist = coord.distance(lastCoord);
+// --->
+    //cout << dist << ", ";
+// --->
+    if (dist < distanceThreshold) {
+        validationCount++;
+        if (validationCount >= validationThreshold) {
+            hasFoundMatch = true;
+        }
+        
+    }
+    else {
+        hasFoundMatch = false;
+    }
+    
+    lastCoord = coord;
+    
 }
