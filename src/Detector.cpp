@@ -20,10 +20,10 @@ void Detector::setup(ofVideoGrabber camera) {
     cam = camera;
     mode = DETECTOR_MODE_OFF; // TODO review
     setMinAreaRadius(1);
-    setMaxAreaRadius(100);
+    setMaxAreaRadius(50);
     setThreshold(15);
     // wait for half a frame before forgetting something (15)
-    getTracker().setPersistence(100); // TODO: make an interface for this. Should be 1 for sequential tracking
+    getTracker().setPersistence(200); // TODO: make an interface for this. Should be 1 for sequential tracking
     // an object can move up to 32 pixels per frame
     getTracker().setMaximumDistance(32);
     getTracker().setSmoothingRate(1.0);
