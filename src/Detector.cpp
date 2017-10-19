@@ -73,9 +73,7 @@ void Detector::updateViewOnly() {
 void Detector::findBinary() {
     // Get colour from original frame in contour areas
     if (this->size() <= 0) { cout << "no contour at this moment!" << endl; }
-    else {
-//        cout << "findBinary size(): " << this->size() << endl;
-    }
+
     // Iterate though all active trackers
     // The size may vary, and the index does not necessarily line up with tracker label (id)
 
@@ -115,7 +113,9 @@ void Detector::findBinary() {
         avgG = g/numPixels;
         avgB = b/numPixels;
         
-        cout << "[" << avgR << ", " << avgG << ", " << avgB << "]," << endl;
+// ---->
+        //cout << "[" << avgR << ", " << avgG << ", " << avgB << "]," << endl;
+// ---->
         
         ofFloatColor avgColor = ofFloatColor(avgR, avgG, avgB);
         float brightness = avgColor.getBrightness();
@@ -125,9 +125,6 @@ void Detector::findBinary() {
         
         float brightnessThreshold = 0.65;
         if (brightness >= brightnessThreshold) {
-            //                ofLogVerbose("binary") << "Above threshold, check for brightest color" << endl;
-            
-            
             vector<float> colours;
             colours.push_back(avgR);
             colours.push_back(avgG);
@@ -135,8 +132,6 @@ void Detector::findBinary() {
             
             // Get the index of the brightest average colour
             dist = distance(colours.begin(), max_element(colours.begin(), colours.end()));
-            
-        
             
             // Note: the above state DO NOT reflect the 'dist' used here
             if (dist == 1 || dist == 2) {
@@ -149,11 +144,11 @@ void Detector::findBinary() {
                 
                 if (colorDistance <= colorDistanceThreshold) {
                     dist = 1; // Set to green
-                    cout << "Distance between green and blue is lower than threshold. We should detect GREEN" << endl;
+                //    cout << "Distance between green and blue is lower than threshold. We should detect GREEN" << endl;
                 }
                 else {
                     dist = 2; // Set to blue
-                    cout << "Distance between green and blue is greater than threshold. We should detect BLUE" << endl;
+                //    cout << "Distance between green and blue is greater than threshold. We should detect BLUE" << endl;
                 }
             }
             
@@ -190,10 +185,7 @@ void Detector::findBinary() {
         }
         
         dict[getLabel(i)].first.previousState = dict[getLabel(i)].first.detectedState;
-        
-        
     }
-    // Profit
 }
 
 

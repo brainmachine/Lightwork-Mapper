@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     // Set the log level
-    ofSetLogLevel("match", OF_LOG_VERBOSE);
+    ofSetLogLevel("match", OF_LOG_NOTICE);
     ofLogToConsole();
     
     // Set initial camera dimensions
@@ -121,8 +121,6 @@ void ofApp::update() {
                 ofLogVerbose("match") << "LED Address: " << it->address << " coord: " << it->coord;
             }
         }
-        
-
     }
     
     // New camera frame: Turn on a new LED and detect the location.
@@ -157,7 +155,7 @@ void ofApp::draw(){
     
     
     // Draw labels and detected patterns
-
+/*
     for (auto it = detector.dict.begin(); it!=detector.dict.end(); ++it) {
         int label = it->first;
         string patternString = it->second.first.binaryPatternString;
@@ -165,30 +163,7 @@ void ofApp::draw(){
         ofDrawBitmapString(ofToString(label), point.x+10, point.y);
         ofDrawBitmapString(patternString, point.x+50, point.y);
     }
-    //for (std::map<unsigned int, <BinaryPattern, ofPoint>>::iterator it=detector.dict.begin(); it!=detector.dict.end(); ++it) {
-//        
-//        int label = it->first;
-//        string patternString = it->second.binaryPatternString;
-//        
-//        ofDrawBitmapString(ofToString(label), detector.getCenter(i).x+10, detector.getCenter(i).y);
-//        ofDrawBitmapString(patternString, detector.getCenter(i).x+50, detector.getCenter(i).y);
-    
-  //  }
-    
-    
-    
-    
-    if (detector.dict.size() < detector.dict.size()) {
-        cout << detector.dict.size() << endl;
-        for (int i = 0; i < detector.dict.size(); i++) {
-            int label = detector.getLabel(i); // TODO this is wrong
-//            string pat = detector.detectedPatterns[i].binaryPatternString;
-//            string pat = detector.dict[label].binaryPatternString;
-//            ofDrawBitmapString(ofToString(label), detector.getCenter(i).x+10, detector.getCenter(i).y);
-//            ofDrawBitmapString(pat, detector.getCenter(i).x+50, detector.getCenter(i).y);
-        }
-    }
-    
+*/
     
     // Draw the detected contour center points
     for (int i = 0; i < detector.centroids.size(); i++) {
@@ -210,8 +185,7 @@ void ofApp::draw(){
 	camFbo.draw(0, 0, (ofGetWindowHeight() / 2)*camAspect, ofGetWindowHeight()/2);
 	//if (detector.thresholded.isAllocated()) {
 		detector.thresholded.draw(0, ofGetWindowHeight() / 2, (ofGetWindowHeight() / 2)*camAspect, ofGetWindowHeight()/2);
-    
-//	}
+    //}
     
     
 
