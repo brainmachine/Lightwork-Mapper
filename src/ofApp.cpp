@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     // Set the log level
-    ofSetLogLevel("brightness", OF_LOG_VERBOSE);
+    ofSetLogLevel("match", OF_LOG_VERBOSE);
     ofLogToConsole();
     
     // Set initial camera dimensions
@@ -57,7 +57,7 @@ void ofApp::setup(){
     // Animator settings
     animator.setLedInterface(&opcClient); // Setting a POINTER to the interface, so the Animator class can update pixels internally
     animator.setMode(ANIMATION_MODE_CHASE);
-    animator.setNumLedsPerStrip(1); // This also updates numLedsPerStrip in the OPC Client
+    animator.setNumLedsPerStrip(20); // This also updates numLedsPerStrip in the OPC Client
     animator.setNumStrips(1); // TODO: Fix setNumStrips, it gets set to n-1
     animator.setLedBrightness(100);
     animator.setFrameSkip(5);
@@ -194,6 +194,13 @@ void ofApp::draw(){
     for (int i = 0; i < detector.centroids.size(); i++) {
 		ofDrawCircle(detector.centroids[i].x, detector.centroids[i].y, 3);
     }
+    
+    // Draw detected binary pattern coordinates
+    ofSetColor(255, 0, 0);
+    for (auto it = animator.leds.begin(); it != animator.leds.end(); it++) {
+        ofDrawCircle(it->coord.x, it->coord.y, 5);
+    }
+    
 	camFbo.end();
 
 	ofSetColor(ofColor::white); //reset color, else it tints the camera
@@ -203,7 +210,10 @@ void ofApp::draw(){
 	camFbo.draw(0, 0, (ofGetWindowHeight() / 2)*camAspect, ofGetWindowHeight()/2);
 	//if (detector.thresholded.isAllocated()) {
 		detector.thresholded.draw(0, ofGetWindowHeight() / 2, (ofGetWindowHeight() / 2)*camAspect, ofGetWindowHeight()/2);
+    
 //	}
+    
+    
 
 }
 
@@ -244,6 +254,9 @@ void ofApp::keyPressed(int key){
 			break;
         case 'f': // filter points
             detector.centroids = removeDuplicatesFromPoints(detector.centroids);
+            break;
+        case 'e':
+            break;
     }
 
 }
