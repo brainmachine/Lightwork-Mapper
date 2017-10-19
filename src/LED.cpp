@@ -17,7 +17,7 @@ LED::LED() {
     
     lastCoord = ofPoint(0,0);
     validationCount = 0;
-    validationThreshold = 20; // TODO: Magic
+    validationThreshold = 110; // TODO: Magic
     distanceThreshold = 1.5; // TODO: Tweak this Magic Number
     
 //    binaryPattern = BinaryPattern();

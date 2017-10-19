@@ -211,9 +211,17 @@ void Animator::binaryAnimation() {
     int bOffset = -30;
     
 //    cout << leds.size() << endl;
+    int numToMap = 30;
+    int index = 0;
     for (int i = 0; i < leds.size(); i++) {
+        if (index >= numToMap) {
+            index = 0;
+            break;
+        }
+        
         if (leds[i].hasFoundMatch) {
             leds[i].binaryPattern.state = BinaryPattern::OFF;
+            continue;
         }
         
         switch (leds[i].binaryPattern.state){ // 0
@@ -235,5 +243,6 @@ void Animator::binaryAnimation() {
             }
         }
         leds[i].binaryPattern.advance();
+        index++;
     }
 }
