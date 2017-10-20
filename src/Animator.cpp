@@ -208,10 +208,10 @@ void Animator::binaryAnimation() {
     // Calibration variables for color channels (manual settings for now)
     int rOffset = 0;
     int gOffset = 0;
-    int bOffset = -30;
+    int bOffset = 0;
     
 //    cout << leds.size() << endl;
-    int numToMap = 30;
+    int numToMap = 20;
     int index = 0;
     for (int i = 0; i < leds.size(); i++) {
         if (index >= numToMap) {
@@ -220,7 +220,7 @@ void Animator::binaryAnimation() {
         }
         
         if (leds[i].hasFoundMatch) {
-            leds[i].binaryPattern.state = BinaryPattern::OFF;
+            leds.at(i).color = ofColor(0, 0, 0); // BLACK
             continue;
         }
         

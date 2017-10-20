@@ -17,7 +17,7 @@ LED::LED() {
     
     lastCoord = ofPoint(0,0);
     validationCount = 0;
-    validationThreshold = 110; // TODO: Magic
+    validationThreshold = 66; // TODO: Magic (should be framskip*numAnimationFrames (22*3==66), validates a full animation frame
     distanceThreshold = 1.5; // TODO: Tweak this Magic Number
     
 //    binaryPattern = BinaryPattern();
@@ -59,6 +59,7 @@ void LED::validateCoord(ofPoint c) {
         validationCount++;
         if (validationCount >= validationThreshold) {
             hasFoundMatch = true;
+            cout << address << ", " << coord.x << ", " << coord.y << ", " << binaryPattern.binaryPatternString << "," << endl;
         }
         
     }

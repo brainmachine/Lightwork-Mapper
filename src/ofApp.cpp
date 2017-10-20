@@ -111,6 +111,17 @@ void ofApp::update() {
                 }
             }
         }
+        // Try to do this without the dictionary
+        ofxCv::RectTracker tracker = detector.getTracker();
+        
+        vector <unsigned int> labels = tracker.getCurrentLabels();
+        detector.getBoundingRects();
+        
+        
+//        for (const *it = tracker.getCurrentLabels().begin(); it != tracker.getCurrentLabels().end(); it++) {
+//            cout << "tracker label: " << it << endl;
+//            
+//        }
         
         // Check if all LEDs have a match
         
@@ -208,8 +219,11 @@ void ofApp::keyPressed(int key){
             detector.centroids.clear();
             isMapping = !isMapping;
             animator.setMode(ANIMATION_MODE_BINARY);
-            animator.setFrameSkip(5);
-            animator.update();
+            animator.setFrameSkip(4);
+            animator.setAllLEDColours(ofColor(0,0,0));
+            if (isMapping) {
+                animator.update();
+            }
             break;
         case 'g':
             generateSVG(detector.centroids);
