@@ -23,23 +23,18 @@ void Detector::setup(ofVideoGrabber camera) {
     setMaxAreaRadius(15);
     setThreshold(15);
     // wait for half a frame before forgetting something (15)
-    getTracker().setPersistence(10); // TODO: make an interface for this. Should be 1 for sequential tracking
+    getTracker().setPersistence(200); // TODO: make an interface for this. Should be 1 for sequential tracking
     // an object can move up to 32 pixels per frame
-    getTracker().setMaximumDistance(32);
-    getTracker().setSmoothingRate(1.0);
+    getTracker().setMaximumDistance(30);
+    getTracker().setSmoothingRate(3.0);
+    
     
     hasFoundFirstContour = false;
     
     // Allocate the thresholded view so that it draws on launch (before calibration starts).
     thresholded.allocate(cam.getWidth(), cam.getHeight(), OF_IMAGE_COLOR);
     thresholded.clear();
-    
-    binaryBrightnessThreshold.setMin(0.0);
-    binaryBrightnessThreshold.setMax(1.0);
-    blueGreenDistanceThreshold.setMin(0.0);
-    blueGreenDistanceThreshold.setMax(1.0);
-    binaryBrightnessThreshold.set("Binary Brightness Threshold", 0.7);
-    blueGreenDistanceThreshold.set("Blue/Green Distance Threshold", 0.1);
+
     
 
 }
@@ -131,7 +126,7 @@ void Detector::findBinary() {
         float brightness = avgColor.getBrightness();
         ofLogVerbose("detector") << "Brightness: " << brightness;
 // ---->
-        if (i == 2) {
+        if (getLabel(i) == 5) {
             cout << "[" << avgR << ", " << avgG << ", " << avgB << ", " << brightness << "]," << endl;
             //cout << brightness << endl;
         }
@@ -140,7 +135,6 @@ void Detector::findBinary() {
         // If brightness is above threshold, get the brightest colour
         int dist;
         
-        float binaryBrightnessThreshold = 0.72;
         if (brightness >= binaryBrightnessThreshold) {
             vector<float> colours;
             colours.push_back(avgR);

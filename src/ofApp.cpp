@@ -63,15 +63,22 @@ void ofApp::setup(){
     
     animator.setFrameSkip(5);
     animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
-    animator.ledBrightness.set("LED Brightness", 180);
+    animator.ledBrightness.set("LED Brightness", 102);
     animator.rOffset.set("Red Offset", 0);
-    animator.gOffset.set("Green Offset", 0);
-    animator.bOffset.set("Blue Offset", 0);
+    animator.gOffset.set("Green Offset", 16);
+    animator.bOffset.set("Blue Offset", -10);
 
     detector.setup(*camPtr);
     detector.setMode(DETECTOR_MODE_OFF);
     detector.learningTime.set("Learning Time", 4, 0, 30);
-    detector.thresholdValue.set("Threshold Value", 50, 0, 255);
+    detector.thresholdValue.set("Threshold Value", 30, 0, 255);
+    
+    detector.binaryBrightnessThreshold.setMin(0.0);
+    detector.binaryBrightnessThreshold.setMax(1.0);
+    detector.blueGreenDistanceThreshold.setMin(0.0);
+    detector.blueGreenDistanceThreshold.setMax(1.0);
+    detector.binaryBrightnessThreshold.set("Binary Brightness Threshold", 0.6);
+    detector.blueGreenDistanceThreshold.set("Blue/Green Distance Threshold", 0.1);
 
     // SVG
     svg.setViewbox(0, 0, camWidth, camHeight);

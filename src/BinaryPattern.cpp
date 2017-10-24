@@ -31,7 +31,7 @@ void BinaryPattern::generatePattern(int num) {
     // Generate a bitset with 10 bits. If the bit sequence is shorter it will append zeros to make the length 10.
     // TODO: replace bitset< 10 > with bitset< patternLength >
     
-    std::string s = std::bitset< 6 >( num ).to_string(); // string conversion
+    std::string s = std::bitset< 10 >( num ).to_string(); // string conversion
     
     // store the unmodified binary pattern as a string and int vector
     binaryPatternString = s;
@@ -115,7 +115,7 @@ void BinaryPattern::updateBitAtIndex(int bit, int index) {
 }
 
 void BinaryPattern::writeNextBit(int bit) {
-    if (bitIndex < 6) {
+    if (bitIndex < 10) {
         binaryPatternVector.at(bitIndex) = bit;
         binaryPatternString = convertIntVectorToString(binaryPatternVector);
         bitIndex++;
