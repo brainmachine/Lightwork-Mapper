@@ -30,6 +30,8 @@ Animator::Animator(void) {
     gOffset.setMax(100);
     bOffset.setMin(-100);
     bOffset.setMax(100);
+    ledBrightness.setMin(0);
+    ledBrightness.setMax(255);
 
     populateLeds();
 }
@@ -54,10 +56,10 @@ void Animator::setMode(animation_mode_t m) {
     resetPixels();
 }
 
-void Animator::setLedBrightness(int brightness) {
-    ledBrightness = brightness;
-    opcClient->autoWriteData(this->getPixels());
-}
+//void Animator::setLedBrightness(int brightness) {
+//    ledBrightness = brightness;
+//    opcClient->autoWriteData(this->getPixels());
+//}
 
 void Animator::setNumLedsPerStrip(int num) {
     ofLogNotice("animator") << "setNumLedsPerStrip(): " << num;

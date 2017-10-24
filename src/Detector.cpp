@@ -19,8 +19,8 @@ Detector::~Detector() {
 void Detector::setup(ofVideoGrabber camera) {
     cam = camera;
     mode = DETECTOR_MODE_OFF; // TODO review
-    setMinAreaRadius(1);
-    setMaxAreaRadius(50);
+    setMinAreaRadius(3);
+    setMaxAreaRadius(15);
     setThreshold(15);
     // wait for half a frame before forgetting something (15)
     getTracker().setPersistence(200); // TODO: make an interface for this. Should be 1 for sequential tracking

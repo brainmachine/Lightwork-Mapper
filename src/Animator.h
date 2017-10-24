@@ -37,7 +37,7 @@ public:
     
     animation_mode_t mode;
     void setMode(animation_mode_t m);
-    void setLedBrightness(int brightness);
+//    void setLedBrightness(int brightness);
     
     // Setters and getters
     void setNumLedsPerStrip(int num);
@@ -67,6 +67,8 @@ public:
     ofParameter<int> gOffset;
     ofParameter<int> bOffset;
     
+    ofParameter<int> ledBrightness;
+    
 private:
     
 //    vector <ofColor>    pixels;
@@ -74,9 +76,6 @@ private:
     int                 ledIndex;               // Index of LED being mapped (lit and detected).
     int                 numLedsPerStrip;                // Number of LEDs per strip
     int                 numStrips;              // How many strips total
-    int                 ledBrightness;          // Brightness of LED's in the animation sequence. Currently hard-coded but
-                                                // will be determined by camera frame brightness (to avoid flaring by
-                                                // excessively bright LEDs).
     
     
     

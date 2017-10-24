@@ -60,9 +60,10 @@ void ofApp::setup(){
     animator.setMode(ANIMATION_MODE_CHASE);
     animator.setNumLedsPerStrip(50); // This also updates numLedsPerStrip in the OPC Client
     animator.setNumStrips(4); // TODO: Fix setNumStrips, it gets set to n-1
-    animator.setLedBrightness(150);
+    
     animator.setFrameSkip(5);
     animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
+    animator.ledBrightness.set("LED Brightness", 180);
     animator.rOffset.set("Red Offset", 0);
     animator.gOffset.set("Green Offset", 0);
     animator.bOffset.set("Blue Offset", 0);
@@ -168,7 +169,7 @@ void ofApp::draw(){
     
     
     // Draw labels and detected patterns
-/*
+    ofSetColor(0, 0, 0);
     for (auto it = detector.dict.begin(); it!=detector.dict.end(); ++it) {
         int label = it->first;
         string patternString = it->second.first.binaryPatternString;
@@ -176,7 +177,7 @@ void ofApp::draw(){
         ofDrawBitmapString(ofToString(label), point.x+10, point.y);
         //ofDrawBitmapString(patternString, point.x+50, point.y);
     }
-*/
+
     
     // Draw the detected contour center points
     for (int i = 0; i < detector.centroids.size(); i++) {
@@ -645,6 +646,7 @@ void ofApp::buildUI(int mult)
 	mapSettings->setVisible(false);
 	mapSettings->addBreak();
     
+    mapSettings->addSlider(animator.ledBrightness);
     mapSettings->addSlider(animator.rOffset);
     mapSettings->addSlider(animator.gOffset);
     mapSettings->addSlider(animator.bOffset);
