@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     // Set the log level
-    ofSetLogLevel("match", OF_LOG_NOTICE);
+    ofSetLogLevel("detector", OF_LOG_NOTICE);
     ofLogToConsole();
     
     // Set initial camera dimensions
@@ -45,6 +45,7 @@ void ofApp::setup(){
     }
     camPtr = &cams[1];
     
+    
     // Tracking
     isMapping = false;
 
@@ -59,9 +60,12 @@ void ofApp::setup(){
     animator.setMode(ANIMATION_MODE_CHASE);
     animator.setNumLedsPerStrip(50); // This also updates numLedsPerStrip in the OPC Client
     animator.setNumStrips(4); // TODO: Fix setNumStrips, it gets set to n-1
-    animator.setLedBrightness(100);
+    animator.setLedBrightness(150);
     animator.setFrameSkip(5);
     animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
+    animator.rOffset.set("Red Offset", 0);
+    animator.gOffset.set("Green Offset", 0);
+    animator.bOffset.set("Blue Offset", 0);
 
     detector.setup(*camPtr);
     detector.setMode(DETECTOR_MODE_OFF);
@@ -640,6 +644,12 @@ void ofApp::buildUI(int mult)
 	mapSettings->addButton("Save Layout");
 	mapSettings->setVisible(false);
 	mapSettings->addBreak();
+    
+    mapSettings->addSlider(animator.rOffset);
+    mapSettings->addSlider(animator.gOffset);
+    mapSettings->addSlider(animator.bOffset);
+    
+    
 
 	//Program Status GUI
 	//guiBottom->addSlider("gui opacity", 0, 100, 50);

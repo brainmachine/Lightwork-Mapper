@@ -62,6 +62,11 @@ public:
     
     vector <LED>            leds;
     
+    // LED Colour Offset
+    ofParameter<int> rOffset;
+    ofParameter<int> gOffset;
+    ofParameter<int> bOffset;
+    
 private:
     
 //    vector <ofColor>    pixels;
@@ -72,6 +77,9 @@ private:
     int                 ledBrightness;          // Brightness of LED's in the animation sequence. Currently hard-coded but
                                                 // will be determined by camera frame brightness (to avoid flaring by
                                                 // excessively bright LEDs).
+    
+    
+    
     int                 testIndex;              // Used for the test() animation sequence
     int                 frameCount;             // Internal framecounter
     int                 frameSkip;              // How many frames to skip between updates

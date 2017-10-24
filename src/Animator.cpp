@@ -22,6 +22,14 @@ Animator::Animator(void) {
     testIndex = 0;
     frameCount = 0;
     frameSkip = 3;
+    
+    // Calibration variables for color channels (manual settings for now)
+    rOffset.setMin(-100);
+    rOffset.setMax(100);
+    gOffset.setMin(-100);
+    gOffset.setMax(100);
+    bOffset.setMin(-100);
+    bOffset.setMax(100);
 
     populateLeds();
 }
@@ -205,10 +213,6 @@ void Animator::binaryAnimation() {
     
     // Slow down the animation, set new state every 3 frames
    
-    // Calibration variables for color channels (manual settings for now)
-    int rOffset = 0;
-    int gOffset = 0;
-    int bOffset = 0;
     
 //    cout << leds.size() << endl;
     int numToMap = 20;

@@ -104,9 +104,11 @@ void Detector::findBinary() {
         for (int j = 0; j < pixels.getWidth(); j++) {
             for (int k = 0; k < pixels.getHeight(); k++) {
                 ofFloatColor col = pixels.getColor(j, k);
-                r += col.r;
-                g += col.g;
-                b += col.b;
+                //if (col.getSaturation() > 0.2) {
+                    r += col.r;
+                    g += col.g;
+                    b += col.b;
+                //}
             }
         }
         float avgR, avgG, avgB = 0;
@@ -115,19 +117,22 @@ void Detector::findBinary() {
         avgG = g/numPixels;
         avgB = b/numPixels;
         
-// ---->
-//        if (i == 2) {
-//             cout << "[" << avgR << ", " << avgG << ", " << avgB << "]," << endl;
-//        }
-// ---->
+
         
         ofFloatColor avgColor = ofFloatColor(avgR, avgG, avgB);
         float brightness = avgColor.getBrightness();
         ofLogVerbose("detector") << "Brightness: " << brightness;
+// ---->
+        if (i == 2) {
+            cout << "[" << avgR << ", " << avgG << ", " << avgB << ", " << brightness << "]," << endl;
+            //cout << brightness << endl;
+        }
+// ---->
+        
         // If brightness is above threshold, get the brightest colour
         int dist;
         
-        float brightnessThreshold = 0.65;
+        float brightnessThreshold = 0.72;
         if (brightness >= brightnessThreshold) {
             vector<float> colours;
             colours.push_back(avgR);

@@ -59,7 +59,7 @@ void LED::validateCoord(ofPoint c) {
         validationCount++;
         if (validationCount >= validationThreshold) {
             hasFoundMatch = true;
-            cout << address << ", " << coord.x << ", " << coord.y << ", " << binaryPattern.binaryPatternString << "," << endl;
+            //cout << address << ", " << coord.x << ", " << coord.y << ", " << binaryPattern.binaryPatternString << "," << endl;
         }
         
     }
