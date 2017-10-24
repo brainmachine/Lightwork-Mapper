@@ -32,7 +32,12 @@ public:
     vector <ofPoint>        centroids;          // Stores the contour area centers.
     bool                    hasFoundFirstContour;   // Avoid registering 'fake' points before the first detection
     ofParameter<float>      learningTime;
-    ofParameter<float>      thresholdValue; // Redundant? Was ofParameter...
+    ofParameter<float>      thresholdValue; // Camera brightness threshold
+    
+    // Binary Detection Thresholds
+    ofParameter<float>      binaryBrightnessThreshold; 
+    ofParameter<float>      blueGreenDistanceThreshold;
+    
     ofVideoGrabber          cam;
     
     void setup(ofVideoGrabber camera);

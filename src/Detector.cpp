@@ -23,7 +23,7 @@ void Detector::setup(ofVideoGrabber camera) {
     setMaxAreaRadius(15);
     setThreshold(15);
     // wait for half a frame before forgetting something (15)
-    getTracker().setPersistence(200); // TODO: make an interface for this. Should be 1 for sequential tracking
+    getTracker().setPersistence(10); // TODO: make an interface for this. Should be 1 for sequential tracking
     // an object can move up to 32 pixels per frame
     getTracker().setMaximumDistance(32);
     getTracker().setSmoothingRate(1.0);
@@ -33,6 +33,14 @@ void Detector::setup(ofVideoGrabber camera) {
     // Allocate the thresholded view so that it draws on launch (before calibration starts).
     thresholded.allocate(cam.getWidth(), cam.getHeight(), OF_IMAGE_COLOR);
     thresholded.clear();
+    
+    binaryBrightnessThreshold.setMin(0.0);
+    binaryBrightnessThreshold.setMax(1.0);
+    blueGreenDistanceThreshold.setMin(0.0);
+    blueGreenDistanceThreshold.setMax(1.0);
+    binaryBrightnessThreshold.set("Binary Brightness Threshold", 0.7);
+    blueGreenDistanceThreshold.set("Blue/Green Distance Threshold", 0.1);
+    
 
 }
 
@@ -132,8 +140,8 @@ void Detector::findBinary() {
         // If brightness is above threshold, get the brightest colour
         int dist;
         
-        float brightnessThreshold = 0.72;
-        if (brightness >= brightnessThreshold) {
+        float binaryBrightnessThreshold = 0.72;
+        if (brightness >= binaryBrightnessThreshold) {
             vector<float> colours;
             colours.push_back(avgR);
             colours.push_back(avgG);
@@ -148,12 +156,12 @@ void Detector::findBinary() {
                 // When we light up green, it also brings up the blue levels
                 // We want to make sure that the distance between green and blue is sufficient
                 // If the distance is greater than the threshold we assume it's blue, if it's below it's green
-                float colorDistanceThreshold = 0.1;
+                
                 float colorDistance = std::abs(avgB-avgG);
 // ---->
                 //cout << colorDistance << ", ";
 // ---->
-                if (colorDistance <= colorDistanceThreshold) {
+                if (colorDistance <= blueGreenDistanceThreshold) {
                     dist = 1; // Set to green
                 //    cout << "Distance between green and blue is lower than threshold. We should detect GREEN" << endl;
                 }

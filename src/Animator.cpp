@@ -195,13 +195,13 @@ void Animator::test() {
     testIndex++;
     
     if (testIndex < 30) {
-        setAllLEDColours(ofColor(255, 0, 0));
+        setAllLEDColours(ofColor(ledBrightness, 0, 0));
     }
     else if (testIndex > 30 && testIndex < 60) {
-        setAllLEDColours(ofColor(0, 255, 0));
+        setAllLEDColours(ofColor(0, ledBrightness, 0));
     }
     else if (testIndex > 60 && testIndex < 90) {
-        setAllLEDColours(ofColor(0, 0, 255));
+        setAllLEDColours(ofColor(0, 0, ledBrightness));
     }
     
     if (testIndex > 90) {
@@ -217,7 +217,7 @@ void Animator::binaryAnimation() {
    
     
 //    cout << leds.size() << endl;
-    int numToMap = 20;
+    int numToMap = 5;
     int index = 0;
     for (int i = 0; i < leds.size(); i++) {
         if (index >= numToMap) {

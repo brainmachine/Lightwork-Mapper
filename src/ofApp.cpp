@@ -651,6 +651,9 @@ void ofApp::buildUI(int mult)
     mapSettings->addSlider(animator.gOffset);
     mapSettings->addSlider(animator.bOffset);
     
+    mapSettings->addSlider(detector.binaryBrightnessThreshold);
+    mapSettings->addSlider(detector.blueGreenDistanceThreshold);
+    
     
 
 	//Program Status GUI
