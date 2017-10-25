@@ -126,7 +126,7 @@ void Detector::findBinary() {
         float brightness = avgColor.getBrightness();
         ofLogVerbose("detector") << "Brightness: " << brightness;
 // ---->
-        if (getLabel(i) == 5) {
+        if (getLabel(i) == 16) {
             cout << "[" << avgR << ", " << avgG << ", " << avgB << ", " << brightness << "]," << endl;
             //cout << brightness << endl;
         }

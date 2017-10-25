@@ -217,7 +217,7 @@ void Animator::binaryAnimation() {
    
     
 //    cout << leds.size() << endl;
-    int numToMap = 20;
+    int numToMap = 40;
     int index = 0;
     for (int i = 0; i < leds.size(); i++) {
         if (index >= numToMap) {

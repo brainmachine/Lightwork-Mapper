@@ -63,7 +63,7 @@ void ofApp::setup(){
     
     animator.setFrameSkip(5);
     animator.setAllLEDColours(ofColor(0, 0, 0)); // Clear the LED strips
-    animator.ledBrightness.set("LED Brightness", 102);
+    animator.ledBrightness.set("LED Brightness", 60);
     animator.rOffset.set("Red Offset", 0);
     animator.gOffset.set("Green Offset", 16);
     animator.bOffset.set("Blue Offset", -10);
@@ -77,8 +77,8 @@ void ofApp::setup(){
     detector.binaryBrightnessThreshold.setMax(1.0);
     detector.blueGreenDistanceThreshold.setMin(0.0);
     detector.blueGreenDistanceThreshold.setMax(1.0);
-    detector.binaryBrightnessThreshold.set("Binary Brightness Threshold", 0.6);
-    detector.blueGreenDistanceThreshold.set("Blue/Green Distance Threshold", 0.1);
+    detector.binaryBrightnessThreshold.set("Binary Brightness Threshold", 0.70);
+    detector.blueGreenDistanceThreshold.set("Blue/Green Distance Threshold", 0.18);
 
     // SVG
     svg.setViewbox(0, 0, camWidth, camHeight);
